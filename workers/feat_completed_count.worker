@@ -1,0 +1,6 @@
+remote # full_remote_build true
+runtime 'ruby'
+exec 'feat_completed_count.rb'
+gem 'iron_cache'
+file '../iron.json'
+file '../app/models/concerns/census.rb'
