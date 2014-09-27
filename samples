@@ -1,0 +1,249 @@
+feat categories
+http://census.soe.com/s:example/json/get/dcuo:v1/feat_category?c:limit=9999
+
+all feats (1258)
+http://census.soe.com/s:example/json/get/dcuo:v1/feat?c:limit=9999&c:show=feat_id,feat_category_id,name.en,description.en,predicate
+
+characters completed feat
+http://census.soe.com/s:bytecode/json/get/dcuo:v1/characters_completed_feat?character_id=562949955185214&c:limit=9999&c:show=feat_id
+
+characters active feat
+http://census.soe.com/s:bytecode/json/get/dcuo:v1/characters_active_feat?character_id=562949955185214&c:limit=9999&c:show=feat_id&c:join=feat^show:name.en%27description.en%27feat_category_id%27predicate
+
+
+
+
+
+
+
+search feat works by name but not by description
+http://census.soe.com/s:example/json/get/dcuo:v1/feat?name.en=^paradox&c:case=false&c:limit=9999&c:show=name,description,feat_category_id&c:join=feat_category^show:category_name
+
+
+
+
+DCUO data obtained on 09/09/2014 using the SOE census:
+
+============================================
+22 million characters on DCUO
+225 thousand leagues
+1.8 million characters in leagues
+43 thousand leagues on USPC
+97 leagues created on USPC in the last day
+If we assume 18million people created characters, on average, a person has 1.2 characters
+so most people only have 1 character
+
+============================================
+DCUO All worlds Characters active in last day:
+https://census.soe.com/s:example/count/dcuo:v1/character?last_saved=>1410196380
+{"count":141056}
+
+USPC Characters active in last day:
+https://census.soe.com/s:example/count/dcuo:v1/character?last_saved=>1410196380&world_id=1
+{"count":25925}
+
+USPS Characters active in the last day:
+{"count":77747}
+============================================
+DCUO All worlds Male-Female Character ratio is 4.2 to 1:
+USPC Male-Female ratio is 3.5 to 1
+
+============================================
+DCUO All worlds People with CR > 108
+{"count":5}
+
+DCUO All worlds People with CR > 107
+{"count":8759}
+
+DCUO All worlds People with CR > 106
+{"count":20771}
+
+people with CR 109:
+http://census.soe.com/get/dcuo:v1/character?combat_rating=109&c:limit=100&c:show=name,combat_rating
+
+
+At least two people have a vitalization higher than 4300:
+http://census.soe.com/get/dcuo:v1/character?vitalization=>4300&c:limit=100&c:show=name,vitalization&c:sort=vitalization
+
+This guy had a precision over 5200 at one time (add him to your friends list EUPS3):
+http://census.soe.com/get/dcuo:v1/character?name=DANGERMEN88
+
+Maybe he was in legends or some character change at the time?
+
+============================================
+
+DCUO All worlds All time population ranking:
+
+1. USPS3 8,590,303
+2. USPC 6,751,601
+3. EUPS3 3,646,462
+4. EUPC 3,229,952
+
+I guess USPS3 really doesn't have that many more people than USPC.
+
+============================================
+DCUO All time Hero-Villain ratio is 1.9 to 1:
+USPC All time Hero-Villain ratio is 1.9 to 1
+USPC current Hero-villain ratio is 2.4 to 1
+
+I expected this to be much higher.
+
+============================================
+DCUO All worlds movement mode ranking
+
+1. Flight 11,313,168 (51%)
+2. Acrobatics 6,068,314 (27%)
+3. SuperSpeed 4,837,722 (22%)
+
+============================================
+DCUO All worlds all time Power type rankings
+
+1. Fire 5,453,935 (25%)
+2. Gadgets 4,176,571 (19%)
+3. Ice 3,793,650 (17%)
+4. Mental 2,616,616 (12%)
+5. Sorcery 2,069,729 (9%)
+6. Nature 1,711,155 (8%)
+7. Light 835,019 (4%)
+8. Electricity 511,505 (2%)
+9. Earth 319,601 (1%)
+10. Quantum 287,221 (1%)
+11. Rage 251,705 (1%)
+12. Celestial 192,702 (1%)
+
+So Hard Light is only 4% of all characters! It makes sense for SOE to focus on making Fire people happy.
+
+============================================
+Count of feats:
+http://census.soe.com/count/dcuo/feat
+{"count":1240}
+
+Feat list:
+http://census.soe.com/get/dcuo/feat?c:limit=9999
+
+There are numerous feats I don't have recorded. I guess they never made it into the game.
+For example, these feats:
+Black Barrel Buster Master
+Blue Barrel Buster Expert
+
+============================================
+USPC top 10 earliest created characters who logged in the last month and played over 2000 hours since start
+
+{"character_list":[{
+"name":"Blight","created_date":"2011-01-11 08:08:30.283707","time_played_seconds":"11809891"},{
+"name":"Superb Blur","created_date":"2011-01-11 08:11:46.157807","time_played_seconds":"7642137"},{
+"name":"Voidstrike","created_date":"2011-01-11 08:16:55.37394","time_played_seconds":"7841294"},{
+"name":"Kite","created_date":"2011-01-11 08:23:17.100366","time_played_seconds":"7632695"},{
+"name":"Apollonia II","created_date":"2011-01-11 08:23:30.597903","time_played_seconds":"7565061"},{
+"name":"SPAM","created_date":"2011-01-11 08:28:49.817824","time_played_seconds":"9317903"},{
+"name":"Incredible","created_date":"2011-01-11 08:56:45.482677","time_played_seconds":"10213411"},{
+"name":"xSpartacusx","created_date":"2011-01-11 08:58:05.956455","time_played_seconds":"19214773"},{
+"name":"Prime Control","created_date":"2011-01-11 09:11:30.450658","time_played_seconds":"9096891"},{
+"name":"XCalibur","created_date":"2011-01-11 09:13:12.618936","time_played_seconds":"9402668"}],"returned":10}
+
+============================================
+USPC top 10 characters by playing time last month:
+
+http://census.soe.com/get/dcuo:v1/character?time_played_seconds=>7200000&c:limit=10&c:sort=time_played_seconds&world_id=1&last_saved=>1407611075&c:show=name,time_played_seconds,created_date
+
+{"character_list":[{
+"name":"GROBLEN","created_date":"2012-12-01 16:13:18.931778","time_played_seconds":"7201750"},{
+"name":"MissXitana","created_date":"2011-12-26 02:02:05.207233","time_played_seconds":"7201938"},{
+"name":"Gipsy Lord","created_date":"2012-03-17 10:30:38.914029","time_played_seconds":"7205566"},{
+"name":"MATHEUS JUDEU","created_date":"2011-11-13 11:45:49.82095","time_played_seconds":"7205856"},{
+"name":"Veenom","created_date":"2012-03-23 18:32:40.326558","time_played_seconds":"7207892"},{
+"name":"Black Licious","created_date":"2013-02-16 02:59:01.667799","time_played_seconds":"7209002"},{
+"name":"Nafrii","created_date":"2013-08-21 06:45:50.186351","time_played_seconds":"7209939"},{
+"name":"Uxor Arbor","created_date":"2011-02-03 11:05:31.228649","time_played_seconds":"7210548"},{
+"name":"The Dark4","created_date":"2011-11-26 14:50:01.123362","time_played_seconds":"7210602"},{
+"name":"BlackAngelGirl","created_date":"2013-03-24 14:08:20.291406","time_played_seconds":"7211293"}],"returned":10}
+
+============================================
+League Earth One on USPC has added 7 new members since Sept 1st:
+http://census.soe.com/count/dcuo:v1/guild_roster?world_id=1&guild_id=3832&joined_date=>2014-09-01 00:00:00.000000
+{"count":7}
+
+============================================
+Skill points > 180 all servers:
+http://census.soe.com/count/dcuo:v1/character?skill_points=>180&c:limit=100
+{"count":2357}
+
+Skill points > 185 all servers:
+http://census.soe.com/count/dcuo:v1/character?skill_points=>185&c:limit=100
+{"count":1133}
+
+Most skill points USPC
+
+http://census.soe.com/get/dcuo:v1/character?skill_points=>194&world_id=1&c:limit=100&c:show=name,skill_points
+
+{"character_list":[{
+"name":"BarrackHussein","skill_points":"195"},{
+"name":"BigBabyGz","skill_points":"195"},{
+"name":"Bobburt","skill_points":"195"},{
+"name":"Eisen","skill_points":"195"},{
+"name":"Giggles","skill_points":"195"},{
+"name":"Magicmedic","skill_points":"195"},{
+"name":"Pollux Ice","skill_points":"195"},{
+"name":"Tharkis","skill_points":"195"}],"returned":8}
+
+
+These were all simple queries. If I programmed it, I bet I could figure out what the biggest league was, how active it is, how many cr108's it has, and over time, how many people are added and leave it.
+
+
+
+
+
+    friend_list = character_hash['character_id_join_characters_friend']['friend_list'] rescue []
+    friend_ids = (friend_list || []).map { |f| f['character_id'] }.join(',')
+
+    friend_path = "/s:bytecode/json/get/dcuo:v1/character?character_id=#{friend_ids}"
+    friend_path += "&c:join=power_type^show:name.en"
+    friend_path += "&c:show=name,power_type_id,combat_rating,skill_points"
+
+    friends_request = Net::HTTP::Get.new(friend_path)
+    friends_response = http.request(friends_request)
+    friends = JSON.parse(friends_response.body)['character_list'] || []
+
+
+
+
+<DDPredicate_False/>
+
+<DDPredicate_AND>
+<DDPredicate_OR>
+
+<DDPredicate_LevelAtleast level=4/>
+
+<DDPredicate_IsHero/>
+<DDPredicate_IsVillain/>
+<DDPredicate_isHero/>
+<DDPredicate_isVillain/>
+
+<DDPredicate_HasMovementMode mode=Acrobat/>
+<DDPredicate_HasMovementMode mode=Flight/>
+<DDPredicate_HasMovementMode mode=Speed/>
+
+<DDPredicate_IsMagic/>
+<DDPredicate_IsMeta/>
+<DDPredicate_IsTech/>
+
+<DDPredicate_HasControllerRole/>
+<DDPredicate_HasHealerRole/>
+<DDPredicate_HasTankRole/>
+
+<DDPredicate_HasDLC1/>
+<DDPredicate_HasDLC2/>
+<DDPredicate_HasDLC3/>
+<DDPredicate_HasDLC4/>
+<DDPredicate_HasDLC5/>
+<DDPredicate_HasDLC6/>
+<DDPredicate_HasDLC7/>
+<DDPredicate_HasDLC8/>
+<DDPredicate_HasDLC9/>
+<DDPredicate_HasDLC10/>
+<DDPredicate_HasDLC11/>
+
+<DDPredicate_HasQuestID id=1262775/>
+<DDPredicate_HasQuestID id=1262776/>
+<DDPredicate_HasCompletedQuestID id=1262775/>
+<DDPredicate_HasCompletedQuestID id=1262776/>
