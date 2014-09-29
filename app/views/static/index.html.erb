@@ -1,1 +1,135 @@
-<h1>wavedox</h1>
+<div class="nav-main" ng-controller="NavCtrl">
+  <div class="grid nopad">
+    <div class="col-10-12 mob-10-12 nopad">
+      <div class="nav-top">
+
+        <a class="brand" href="/">
+          <i class="fa fa-share-alt-square"></i>
+          wavedox
+        </a>
+
+        <a class="mobile-hidden" href="/leaderboards">Leaderboards</a>
+        <a class="mobile-hidden" href="/suggested-feats">Suggested Feats</a>
+
+      </div>
+    </div>
+    <div class="col-2-12 mob-2-12 nopad">
+      <div class="nav-top push-right">
+
+        <a class="nav-toggle mobile-only" href="" ng-click="toggleNav()" ng-class="{ active: showSubnav() }">
+          <i class="fa fa-navicon"></i>
+        </a>
+
+        <a class="nav-toggle mobile-hidden" href="" ng-click="toggleNav()" ng-class="{ active: showSubnav() }">
+          My Profile
+          <i class="fa fa-chevron-down"></i>
+        </a>
+
+      </div>
+    </div>
+  </div>
+
+  <div class="nav-dropdown" ng-show="showSubnav()">
+    <div><a class="mobile-only" href="/leaderboards">Leaderboards</a></div>
+    <div><a class="mobile-only" href="/suggested-feats">Suggested Feats</a></div>
+    <div><a href="/my-character">My Character</a></div>
+    <div><a href="/my-league">My League</a></div>
+  </div>
+</div>
+
+<div id="container">
+  <div class="grid">
+    <div class="col-8-12">
+
+      <div class="panel" ng-controller="SearchCtrl">
+        <div class="panel-body fortified" id="search-panel">
+
+          <div ng-if="!showSearchOptions">
+            <div id="search-tagline">Search characters and leagues in DC Universe Online.</div>
+
+            <div id="search-box">
+              <input type="text" placeholder="{{placeholder()}}">
+              <button type="button"><i class="fa fa-search"></i></button>
+            </div>
+
+            <a id="search-options-link" href="" ng-click="toggleSearchOptions()">
+              <i class="fa fa-cog"></i> Search Options
+            </a>
+          </div>
+
+          <div ng-if="showSearchOptions">
+
+            <div class="search-option-group">
+              <label>Find</label>
+              <div class="options">
+                <a ng-click="searchModel.set('cardinality', 'one')" href=""
+                  ng-class="{ selected: searchModel.cardinality === 'one' }"
+                  ng-if="searchModel.dataType && searchModel.world">one</a><a
+
+                  ng-click="searchModel.set('cardinality', 'all')" href=""
+                  ng-class="{ selected: searchModel.cardinality === 'all' }">all</a>
+              </div>
+            </div>
+
+            <div class="search-option-group">
+              <label>What</label>
+              <div class="options">
+                <a ng-click="searchModel.set('dataType', 'character')" href=""
+                  ng-class="{ selected: searchModel.dataType === 'character' }">character{{searchModel.pluralize()}}</a><a
+
+                  ng-click="searchModel.set('dataType', 'league')" href=""
+                  ng-class="{ selected: searchModel.dataType === 'league' }">league{{searchModel.pluralize()}}</a><a
+
+                  ng-click="searchModel.set('dataType', '')" href=""
+                  ng-class="{ selected: searchModel.dataType === '' }"
+                  ng-if="searchModel.cardinality === 'all'">both</a>
+              </div>
+            </div>
+
+            <div class="search-option-group">
+              <label>World</label>
+              <div class="options">
+                <a ng-click="searchModel.set('world', 'usps')" href=""
+                  ng-class="{ selected: searchModel.world === 'usps' }">USPS</a><a
+
+                  ng-click="searchModel.set('world', 'uspc')" href=""
+                  ng-class="{ selected: searchModel.world === 'uspc' }">USPC</a><a
+
+                  ng-click="searchModel.set('world', 'eups')" href=""
+                  ng-class="{ selected: searchModel.world === 'eups' }">EUPS</a><a
+
+                  ng-click="searchModel.set('world', 'eupc')" href=""
+                  ng-class="{ selected: searchModel.world === 'eupc' }">EUPC</a><a
+
+                  ng-click="searchModel.set('world', '')" href=""
+                  ng-class="{ selected: searchModel.world === '' }"
+                  ng-if="searchModel.cardinality === 'all'">any</a>
+              </div>
+            </div>
+
+            <a id="search-options-save" href="" ng-click="toggleSearchOptions()">
+              <i class="fa fa-check"></i> Done
+            </a>
+          </div>
+
+        </div>
+      </div>
+    </div>
+
+    <div class="col-4-12">
+      <div class="panel">
+        <div class="panel-body vengeful" id="social-panel">
+          <div id="social-wrapper">
+            <div>Support wavedox on</div>
+            <div id="social-icons">
+              <a href="//twitter.com/BytecodeDCUO" target="_blank"><i class="fa fa-twitter-square"></i></a>
+              <a href="//facebook.com/wavedox" target="_blank"><i class="fa fa-facebook-square"></i></a>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div ng-view></div>
+</div>

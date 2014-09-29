@@ -1,0 +1,58 @@
+@import 'theme/variables'
+
+#search-panel
+  height: 135px
+  position: relative
+
+#search-tagline
+  color: #eee
+  font-size: 90%
+  margin-bottom: 5px
+
+#search-box
+  position: relative
+
+  input
+    padding-right: 60px
+
+  button
+    position: absolute
+    right: 0
+    top: 0
+    width: 50px
+
+#search-options-link
+  display: inline-block
+  font-size: 90%
+  margin-top: 15px
+
+#search-options-save
+  font-size: 120%
+  position: absolute
+  bottom: 21px
+  left: 375px
+
+.search-option-group
+  margin-bottom: 10px
+
+  label
+    display: inline-block
+    width: 50px
+
+@media handheld, only screen and (max-width: 767px)
+  #search-panel
+    height: auto
+
+  #search-tagline
+    color: white
+    font-size: 80%
+
+  #search-options-save
+    display: inline-block
+    margin-top: 10px
+    position: static
+
+  .search-option-group
+    label
+      display: block
+      margin-bottom: 3px

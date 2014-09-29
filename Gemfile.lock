@@ -42,9 +42,6 @@ GEM
       bundler
       iron_core (>= 1.0.0)
       rubyzip (= 0.9.9)
-    jquery-rails (3.1.2)
-      railties (>= 3.0, < 5.0)
-      thor (>= 0.14, < 2.0)
     json (1.8.1)
     mail (2.5.4)
       mime-types (~> 1.16)
@@ -130,7 +127,6 @@ PLATFORMS
 DEPENDENCIES
   iron_cache (~> 1.4.2)
   iron_worker_ng (~> 1.5.0)
-  jquery-rails (~> 3.1.2)
   newrelic_rpm (~> 3.9.4)
   pg (~> 0.17.1)
   pry-rails

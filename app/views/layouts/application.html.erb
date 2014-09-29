@@ -1,14 +1,14 @@
 <!DOCTYPE html>
-<html lang="en" ng-app="dcuo">
+<html lang="en" ng-app="wavedox">
 
   <head>
     <title>wavedox.com</title>
 
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
-    <meta name="description" content="A resource for DC Universe Online (DCUO) players looking to make progress with their characters, leagues and groups, based on open data from Sony Online Entertainment (SOE) Census.">
-    <meta name="keywords" content="dcuo,dc universe online,census,soe census,characters,leagues,feats,stats,leaderboards,scoreboards,character building,toon building,inspect stats,lfg,game,video game,play station,soe">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <meta name="description" content="A free resource for DC Universe Online (DCUO) players who are looking to make progress with their characters, leagues and groups, based on open data from Sony Online Entertainment (SOE) Census.">
+    <meta name="keywords" content="dcuo,dc universe online,census,soe census,characters,leagues,feats,stats,leaderboards,scoreboards,character building,toon building,inspect stats,skill points,combat rating,pve,pvp,lfg,game,video game,play station,soe">
     <meta name="author" content="Bytecode">
 
     <link rel="icon" href="/favicon.ico" type="image/x-icon">
@@ -20,9 +20,11 @@
     <%= csrf_meta_tags %>
   </head>
 
-  <body>
+  <body wd-close-nav-on-click>
     <%= yield %>
     <%= javascript_include_tag 'application' %>
+
+    <!-- WIP
 
     <script>
       (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
@@ -30,8 +32,10 @@
       m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
       })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
       ga('create', 'UA-54512057-1', 'auto');
+      ga('require', 'displayfeatures');
       ga('send', 'pageview');
     </script>
+    -->
 
   </body>
 </html>

@@ -1,5 +1,8 @@
 Rails.application.routes.draw do
   root 'static#index'
+  get 'ui' => 'static#ui'
+  get 'ping' => 'static#ping'
+  get '*all' => 'static#index'
 
   # The priority is based upon order of creation: first created -> highest priority.
   # See how all your routes lay out with "rake routes".
