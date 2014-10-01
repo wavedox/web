@@ -10,7 +10,31 @@
     $routeProvider
 
       .when('/', {
-        templateUrl: '/templates/home.html'
+        templateUrl: '/templates/welcome.html'
+      })
+
+      .when('/leaderboards', {
+        templateUrl: '/templates/leaderboards.html'
+      })
+
+      .when('/worlds/:world/characters', {
+        templateUrl: '/templates/characters/index.html'
+      })
+
+      .when('/worlds/:world/characters/:name', {
+        templateUrl: '/templates/characters/show.html'
+      })
+
+      .when('/worlds/:world/characters/:name/suggested-feats', {
+        templateUrl: '/templates/characters/suggested-feats.html'
+      })
+
+      .when('/worlds/:world/leagues', {
+        templateUrl: '/templates/leagues/index.html'
+      })
+
+      .when('/worlds/:world/leagues/:name', {
+        templateUrl: '/templates/leagues/show.html'
       })
 
     .otherwise({ redirectTo: '/' });

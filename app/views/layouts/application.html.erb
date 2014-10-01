@@ -16,11 +16,22 @@
     <link rel="apple-touch-icon" href="/iphone-icon.png">
     <link rel="apple-touch-icon-precomposed" href="icon">
 
+    <% if Rails.env == 'production' %>
+      <link rel="stylesheet" href="//fonts.googleapis.com/css?family=Lato:300,700">
+      <link rel="stylesheet" href="//fonts.googleapis.com/css?family=Open+Sans:300,600">
+      <link rel="stylesheet" href="//maxcdn.bootstrapcdn.com/font-awesome/4.2.0/css/font-awesome.css">
+
+    <% else %>
+      <link rel="stylesheet" href="//fonts.googleapis.com/css?family=Lato:300,700"> <!-- wip -->
+      <link rel="stylesheet" href="/fonts/open-sans.css">
+      <link rel="stylesheet" href="/icons/css/font-awesome.css">
+    <% end %>
+
     <%= stylesheet_link_tag 'application', media: 'all' %>
     <%= csrf_meta_tags %>
   </head>
 
-  <body wd-close-nav-on-click>
+  <body>
     <%= yield %>
     <%= javascript_include_tag 'application' %>
 
@@ -33,7 +44,7 @@
       })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
       ga('create', 'UA-54512057-1', 'auto');
       ga('require', 'displayfeatures');
-      ga('send', 'pageview');
+      ga('send', 'pageview'); //////////////////////////////// SPA
     </script>
     -->
 

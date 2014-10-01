@@ -28,6 +28,10 @@ GEM
       thread_safe (~> 0.1)
       tzinfo (~> 1.1)
     arel (5.0.1.20140414130214)
+    autoprefixer-rails (3.1.0.20140911)
+      execjs
+    bootstrap-sass (3.2.0.2)
+      sass (~> 3.2)
     builder (3.2.2)
     coderay (1.1.0)
     erubis (2.7.0)
@@ -52,7 +56,6 @@ GEM
     multi_json (1.10.1)
     net-http-persistent (2.9.4)
     netrc (0.7.7)
-    newrelic_rpm (3.9.4.245)
     pg (0.17.1)
     polyglot (0.3.5)
     pry (0.10.1)
@@ -125,9 +128,10 @@ PLATFORMS
   ruby
 
 DEPENDENCIES
+  autoprefixer-rails (~> 3.1.0)
+  bootstrap-sass (~> 3.2.0)
   iron_cache (~> 1.4.2)
   iron_worker_ng (~> 1.5.0)
-  newrelic_rpm (~> 3.9.4)
   pg (~> 0.17.1)
   pry-rails
   rack-timeout (~> 0.0.4)

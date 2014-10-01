@@ -1,0 +1,51 @@
+<div class="box box-primary" id="search-box">
+
+  <small id="search-tagline" class="open-sans">Search characters and leagues in DC Universe Online.</small>
+
+  <div class="input-group">
+    <input class="form-control" type="text" placeholder="{{placeholder()}}">
+    <span class="input-group-btn">
+      <button class="btn btn-default" type="button"><i class="fa fa-search"></i></button>
+    </span>
+  </div>
+
+  <div id="search-options" class="open-sans">
+
+    <small>Find</small>
+
+    <div class="btn-group">
+      <button class="btn btn-xs btn-default dropdown-toggle" type="button" data-toggle="dropdown">
+        {{searchModel.cardinality}} <span class="caret"></span>
+      </button>
+      <ul class="dropdown-menu" role="menu">
+        <li><a href="" ng-click="searchModel.cardinality = 'one'">one</a></li>
+        <li><a href="" ng-click="searchModel.cardinality = 'all'">all</a></li>
+      </ul>
+    </div>
+
+    <div class="btn-group">
+      <button class="btn btn-xs btn-default dropdown-toggle" type="button" data-toggle="dropdown">
+        {{searchModel.dataType}}{{pluralize()}} <span class="caret"></span>
+      </button>
+      <ul class="dropdown-menu" role="menu">
+        <li><a href="" ng-click="searchModel.dataType = 'character'">character{{pluralize()}}</a></li>
+        <li><a href="" ng-click="searchModel.dataType = 'league'">league{{pluralize()}}</a></li>
+      </ul>
+    </div>
+
+    <small>in</small>
+
+    <div class="btn-group">
+      <button class="btn btn-xs btn-default dropdown-toggle" type="button" data-toggle="dropdown">
+        {{searchModel.world.toUpperCase()}} <span class="caret"></span>
+      </button>
+      <ul class="dropdown-menu dropdown-menu-right" role="menu">
+        <li><a href="" ng-click="searchModel.world = 'usps'">USPS</a></li>
+        <li><a href="" ng-click="searchModel.world = 'uspc'">USPC</a></li>
+        <li><a href="" ng-click="searchModel.world = 'eups'">EUPS</a></li>
+        <li><a href="" ng-click="searchModel.world = 'eupc'">EUPC</a></li>
+      </ul>
+    </div>
+
+  </div>
+</div>

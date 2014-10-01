@@ -1,6 +1,5 @@
 Rails.application.routes.draw do
   root 'static#index'
-  get 'ui' => 'static#ui'
   get 'ping' => 'static#ping'
   get '*all' => 'static#index'
 

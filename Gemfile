@@ -2,13 +2,14 @@ source 'https://rubygems.org'
 
 gem 'rails', '~> 4.1.5'
 gem 'pg', '~> 0.17.1'
+gem 'bootstrap-sass', '~> 3.2.0'
+gem 'autoprefixer-rails', '~> 3.1.0'
 gem 'sass-rails', '~> 4.0.3'
 gem 'uglifier', '>= 1.3.0'
 gem 'spring', group: :development
 gem 'pry-rails', group: :development
 gem 'rails_12factor', group: :production
 gem 'rack-timeout', '~> 0.0.4'
-gem 'newrelic_rpm', '~> 3.9.4'
 gem 'iron_cache', '~> 1.4.2'
 gem 'iron_worker_ng', '~> 1.5.0'
 

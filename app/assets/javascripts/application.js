@@ -12,6 +12,8 @@
 
 //= require lib/jquery
 //= require lib/angular
+//= require lib/underscore
 //= require_tree ./lib
+//= require bootstrap-sprockets
 //= require wavedox
 //= require_tree .
