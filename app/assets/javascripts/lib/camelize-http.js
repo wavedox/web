@@ -7,6 +7,7 @@
 
   function cHttp($http) {
     http.get = get;
+    http.jsonp = jsonp;
     http.post = post;
     return http;
 
@@ -16,6 +17,10 @@
 
     function get() {
       return wrap($http.get.apply(this, arguments));
+    }
+
+    function jsonp() {
+      return wrap($http.jsonp.apply(this, arguments));
     }
 
     function post() {

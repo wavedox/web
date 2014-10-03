@@ -7,53 +7,83 @@
   wavedox.controller('SearchCtrl', SearchCtrl);
 
   function SearchCtrl($scope, SearchModel) {
-    $scope.showSearchOptions = false;
     $scope.searchModel = new SearchModel();
 
+    // Placeholder
+
     $scope.placeholder = function() {
-      var prefix = $scope.searchModel.dataType ? _.str.capitalize($scope.searchModel.dataType) + ' name' : 'Keywords';
-      var suffix = $scope.searchModel.world ? ' (' + $scope.searchModel.world.toUpperCase() + ')' : ' (all worlds)';
-      return prefix + suffix;
+      return _.str.capitalize($scope.searchModel.dataType) + ' name';
     };
 
-    $scope.toggleSearchOptions = function() {
-      $scope.showSearchOptions = !$scope.showSearchOptions;
+    // Search
+
+    $scope.search = function() {
+      SearchService.search($scope.searchModel);
     };
   }
 
   // Search Model
 
-  SearchModelFactory.$inject = [];
+  SearchModelFactory.$inject = ['Cookie'];
   wavedox.factory('SearchModel', SearchModelFactory);
 
-  function SearchModelFactory() {
+  function SearchModelFactory(Cookie) {
     return SearchModel;
 
     function SearchModel() {
       this.keyword = '';
-      this.cardinality = $.cookie('default_cardinality') || 'one';
-      this.dataType = $.cookie('default_data_type') || 'character';
-      this.world = $.cookie('default_world') || 'usps';
+      this.cardinality = Cookie.get('default_cardinality') || 'one';
+      this.dataType = Cookie.get('default_data_type') || 'character';
+      this.world = Cookie.get('default_world') || 'usps';
+
+      // Set
 
       this.set = function(key, value) {
         this[key] = value;
         this.saveOptions();
       }
 
+      // Save Options
+
       this.saveOptions = function() {
-        updateCookie('default_cardinality', this.cardinality);
-        updateCookie('default_data_type', this.dataType);
-        updateCookie('default_world', this.world);
+        Cookie.set('default_cardinality', this.cardinality);
+        Cookie.set('default_data_type', this.dataType);
+        Cookie.set('default_world', this.world);
       };
+
+      // Pluralize
 
       this.pluralize = function() {
         return this.cardinality === 'all' ? 's' : '';
       };
     }
+  }
 
-    function updateCookie(key, value) {
-      $.cookie(key, value, { expires: 365, path: '/' });
-    }
+  // Search Service
+
+  SearchService.$inject = ['$location'];
+  wavedox.service('SearchService', SearchService);
+
+  function SearchService($location) {
+    return {
+
+      // Search
+
+      search: function(searchModel) {
+        var keyword = searchModel.keyword.trim().toLowerCase();
+        var endpoint = searchModel.dataType.trim().toLowerCase() + 's';
+
+        if (searchModel.cardinality === 'all' && keyword.length < 3) {
+          alert('Enter at least 3 letters to find all matching ' + endpoint + '.');
+          return;
+        }
+
+        var world = searchModel.world.trim().toLowerCase();
+        var sep = searchModel.cardinality === 'all' ? '?keyword=' : '/';
+
+        $location.url('/worlds/' + world + '/' + endpoint + sep + keyword);
+      }
+    };
   }
 
 })();

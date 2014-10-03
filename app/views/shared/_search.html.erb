@@ -1,11 +1,11 @@
-<div class="box box-primary" id="search-box">
+<div class="box box-primary" id="search-box" ng-controller="SearchCtrl">
 
   <small id="search-tagline" class="open-sans">Search characters and leagues in DC Universe Online.</small>
 
   <div class="input-group">
-    <input class="form-control" type="text" placeholder="{{placeholder()}}">
+    <input class="form-control" type="text" ng-model="searchModel.keyword" wd-enter-key="search()" placeholder="{{placeholder()}}">
     <span class="input-group-btn">
-      <button class="btn btn-default" type="button"><i class="fa fa-search"></i></button>
+      <button class="btn btn-default" type="button" ng-click="search()"><i class="fa fa-search"></i></button>
     </span>
   </div>
 
@@ -18,18 +18,18 @@
         {{searchModel.cardinality}} <span class="caret"></span>
       </button>
       <ul class="dropdown-menu" role="menu">
-        <li><a href="" ng-click="searchModel.cardinality = 'one'">one</a></li>
-        <li><a href="" ng-click="searchModel.cardinality = 'all'">all</a></li>
+        <li><a href="" ng-click="searchModel.set('cardinality', 'one')">one</a></li>
+        <li><a href="" ng-click="searchModel.set('cardinality', 'all')">all</a></li>
       </ul>
     </div>
 
     <div class="btn-group">
       <button class="btn btn-xs btn-default dropdown-toggle" type="button" data-toggle="dropdown">
-        {{searchModel.dataType}}{{pluralize()}} <span class="caret"></span>
+        {{searchModel.dataType}}{{searchModel.pluralize()}} <span class="caret"></span>
       </button>
       <ul class="dropdown-menu" role="menu">
-        <li><a href="" ng-click="searchModel.dataType = 'character'">character{{pluralize()}}</a></li>
-        <li><a href="" ng-click="searchModel.dataType = 'league'">league{{pluralize()}}</a></li>
+        <li><a href="" ng-click="searchModel.set('dataType', 'character')">character{{searchModel.pluralize()}}</a></li>
+        <li><a href="" ng-click="searchModel.set('dataType', 'league')">league{{searchModel.pluralize()}}</a></li>
       </ul>
     </div>
 
@@ -40,10 +40,10 @@
         {{searchModel.world.toUpperCase()}} <span class="caret"></span>
       </button>
       <ul class="dropdown-menu dropdown-menu-right" role="menu">
-        <li><a href="" ng-click="searchModel.world = 'usps'">USPS</a></li>
-        <li><a href="" ng-click="searchModel.world = 'uspc'">USPC</a></li>
-        <li><a href="" ng-click="searchModel.world = 'eups'">EUPS</a></li>
-        <li><a href="" ng-click="searchModel.world = 'eupc'">EUPC</a></li>
+        <li><a href="" ng-click="searchModel.set('world', 'usps')">USPS</a></li>
+        <li><a href="" ng-click="searchModel.set('world', 'uspc')">USPC</a></li>
+        <li><a href="" ng-click="searchModel.set('world', 'eups')">EUPS</a></li>
+        <li><a href="" ng-click="searchModel.set('world', 'eupc')">EUPC</a></li>
       </ul>
     </div>
 

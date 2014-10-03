@@ -1,0 +1,26 @@
+<div class="box box-info" id="social-box" ng-controller="SocialCtrl">
+
+  <div ng-show="getAlert()">
+
+    <div class="alert-title">
+      <i class="fa {{getAlert().iconStyle()}}"></i>
+      {{getAlert().title()}}
+    </div>
+
+    <div class="alert-message">{{getAlert().message}}</div>
+
+    <a class="alert-close" href="" ng-click="getAlert().dismiss()">
+      <i class="fa fa-close"></i> close
+    </a>
+  </div>
+
+  <div ng-hide="getAlert()" id="support-wavedox">
+    Support wavedox on
+
+    <div id="social-icons">
+      <a href="//twitter.com/BytecodeDCUO" target="_blank"><i class="fa fa-twitter-square"></i></a>
+      <a href="//facebook.com/wavedox" target="_blank"><i class="fa fa-facebook-square"></i></a>
+    </div>
+  </div>
+
+</div>
