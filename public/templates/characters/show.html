@@ -1,0 +1,189 @@
+<div class="row">
+  <div class="col-sm-4 col-md-3">
+    <div class="panel panel-warning">
+
+      <div class="panel-heading">
+        {{character.name}}
+      </div>
+
+      <div class="panel-body text-center">
+        <small class="pull-right">{{character.world}}</small>
+        <img class="character-image" ng-src="http://census.soe.com/files/dcuo/images/character/paperdoll/{{character.id}}">
+
+        <a href="" ng-click=""><i class="fa fa-check"></i> Save as my character</a>
+        <br>
+        <a href="" ng-click=""><i class="fa fa-remove"></i> Unlink from my profile</a>
+      </div>
+    </div>
+  </div>
+
+  <div class="col-sm-8 col-md-5">
+    <div class="panel panel-success">
+      <div class="panel-heading">Overview</div>
+      <div class="panel-body">
+
+        <table class="wd-table">
+          <tbody>
+            <tr>
+              <td>League</td>
+              <td class="text-right">{{character.league}}</td>
+            </tr>
+
+            <tr>
+              <td>Faction</td>
+              <td class="text-right">{{character.faction}}</td>
+            </tr>
+
+            <tr>
+              <td>Origin</td>
+              <td class="text-right">{{character.origin}}</td>
+            </tr>
+
+            <tr>
+              <td>Mentor</td>
+              <td class="text-right">{{character.mentor}}</td>
+            </tr>
+
+            <tr>
+              <td>Power</td>
+              <td class="text-right">{{character.power}}</td>
+            </tr>
+
+            <tr>
+              <td>Movement</td>
+              <td class="text-right">{{character.movement}}</td>
+            </tr>
+
+            <tr>
+              <td>Weapon</td>
+              <td class="text-right">{{character.weapon}}</td>
+            </tr>
+
+            <tr>
+              <td>Personality</td>
+              <td class="text-right">{{character.personality}}</td>
+            </tr>
+
+            <tr>
+              <td>Gender</td>
+              <td class="text-right">{{character.gender}}</td>
+            </tr>
+
+            <tr>
+              <td>Last Location</td>
+              <td class="text-right">{{character.lastLocation}}</td>
+            </tr>
+
+          </tbody>
+        </table>
+
+      </div>
+    </div>
+
+    <div class="panel panel-success">
+      <div class="panel-heading">Stats</div>
+      <div class="panel-body">
+
+        <table class="wd-table">
+          <tbody>
+            <tr>
+              <td>Health</td>
+              <td class="text-right">{{character.currentHealth}} / {{character.maxHealth}}</td>
+            </tr>
+
+            <tr>
+              <td>Power</td>
+              <td class="text-right">{{character.currentPower}} / {{character.maxPower}}</td>
+            </tr>
+
+            <tr>
+              <td>Defense</td>
+              <td class="text-right">{{character.defense}}</td>
+            </tr>
+
+            <tr>
+              <td>Dominance</td>
+              <td class="text-right">{{character.dominance}}</td>
+            </tr>
+
+            <tr>
+              <td>Might</td>
+              <td class="text-right">{{character.might}}</td>
+            </tr>
+
+            <tr>
+              <td>Precision</td>
+              <td class="text-right">{{character.precision}}</td>
+            </tr>
+
+            <tr>
+              <td>Restoration</td>
+              <td class="text-right">{{character.restoration}}</td>
+            </tr>
+
+            <tr>
+              <td>Toughness</td>
+              <td class="text-right">{{character.toughness}}</td>
+            </tr>
+
+            <tr>
+              <td>Vitalization</td>
+              <td class="text-right">{{character.vitalization}}</td>
+            </tr>
+
+          </tbody>
+        </table>
+
+      </div>
+    </div>
+  </div>
+
+  <div class="col-sm-12 col-md-4">
+    <div class="panel panel-warning">
+      <div class="panel-heading">Progress</div>
+      <div class="panel-body">
+
+        <table class="wd-table">
+          <tbody>
+            <tr>
+              <td>Level</td>
+              <td class="text-right">{{character.level}}</td>
+            </tr>
+
+            <tr>
+              <td>PvE CR</td>
+              <td class="text-right">{{character.pveCr}}</td>
+            </tr>
+
+            <tr>
+              <td>PvP CR</td>
+              <td class="text-right">{{character.pvpCr}}</td>
+            </tr>
+
+            <tr>
+              <td>Skill Points</td>
+              <td class="text-right">{{character.skillPoints}}</td>
+            </tr>
+
+            <tr>
+              <td>Feats</td>
+              <td class="text-right">{{character.featsCompleted}} / {{character.maxFeats}}</td>
+            </tr>
+
+          </tbody>
+        </table>
+
+      </div>
+    </div>
+
+    <div class="panel panel-warning">
+      <div class="panel-heading">Suggested Feats</div>
+      <div class="panel-body">
+
+
+
+      </div>
+    </div>
+  </div>
+
+</div>
