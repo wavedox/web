@@ -21,12 +21,13 @@
         <li><a href="/leaderboards">Leaderboards</a></li>
         <li><a href="/suggested-feats">Suggested Feats</a></li>
 
-        <li><a href="/profile/character" class="visible-xs-block">My Character</a></li>
-        <li><a href="/profile/league" class="visible-xs-block">My League</a></li>
+        <li><a class="visible-xs-block" ng-show="hasProfile('character')" ng-href="profileUrl('character')">My Character</a></li>
+        <li><a class="visible-xs-block" ng-show="hasProfile('league')" ng-href="profileUrl('league')">My League</a></li>
+
       </ul>
 
       <ul class="nav navbar-nav navbar-right hidden-xs">
-        <li class="dropdown">
+        <li class="dropdown" ng-show="hasProfile('character')">
 
           <a href="" class="dropdown-toggle" data-toggle="dropdown">
             My Profile
@@ -34,8 +35,8 @@
           </a>
 
           <ul class="dropdown-menu" role="menu">
-            <li><a href="/profile/character">My Character</a></li>
-            <li><a href="/profile/league">My League</a></li>
+            <li><a ng-href="{{profileUrl('character')}}">My Character</a></li>
+            <li><a ng-href="{{profileUrl('league')}}" ng-show="hasProfile('league')">My League</a></li>
           </ul>
 
         </li>

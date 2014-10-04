@@ -3,14 +3,41 @@
 
   // Census Service
 
-  Census.$inject = ['cHttp', 'Env'];
+  Census.$inject = ['$http', 'Env', 'Alert'];
   wavedox.service('Census', Census);
 
-  function Census(cHttp, Env) {
+  function Census($http, Env, Alert) {
     return {
       baseUrl: 'http://census.soe.com/s:bytecode/json/',
       callbackParam: 'callback=JSON_CALLBACK',
       dcuoEndpoint: '/dcuo:v1',
+
+      // Worlds
+
+      worlds: {
+        uspc: 1,
+        usps: 2,
+        eupc: 3,
+        eups: 4,
+
+        reverse: [undefined, 'uspc', 'usps', 'eupc', 'eups']
+      },
+
+      // Mentors
+
+      mentors: {
+        hero: {
+          meta: 'Superman',
+          tech: 'Batman',
+          magic: 'Wonder Woman'
+        },
+
+        villain: {
+          meta: 'Lex Luthor',
+          tech: 'Joker',
+          magic: 'Circe'
+        }
+      },
 
       // URL builder
 
@@ -26,7 +53,7 @@
       get: function(path, callback) {
         var url = this.buildUrlFor(path, 'get');
 
-        cHttp.jsonp(url, { cache: true })
+        $http.jsonp(url, { cache: true })
           .success(this.successHandler(callback, this.errorHandler))
           .error(this.errorHandler);
       },
@@ -36,7 +63,7 @@
       count: function(path, callback) {
         var url = this.buildUrlFor(path, 'count');
 
-        cHttp.jsonp(url, { cache: true })
+        $http.jsonp(url, { cache: true })
           .success(this.successHandler(callback, this.errorHandler))
           .error(this.errorHandler);
       },

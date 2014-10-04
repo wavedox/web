@@ -1,18 +1,30 @@
-<div class="row">
+<div class="row" ng-controller="CharacterCtrl">
   <div class="col-sm-4 col-md-3">
     <div class="panel panel-warning">
 
       <div class="panel-heading">
-        {{character.name}}
+        <h1>{{character.name}}</h1>
       </div>
 
-      <div class="panel-body text-center">
-        <small class="pull-right">{{character.world}}</small>
-        <img class="character-image" ng-src="http://census.soe.com/files/dcuo/images/character/paperdoll/{{character.id}}">
+      <div class="panel-body">
+        <img class="character-image" ng-src="{{character.image}}">
 
-        <a href="" ng-click=""><i class="fa fa-check"></i> Save as my character</a>
-        <br>
-        <a href="" ng-click=""><i class="fa fa-remove"></i> Unlink from my profile</a>
+        <table class="wd-table interactions">
+          <tbody>
+            <tr ng-hide="isMyProfile()">
+              <td><a href="" ng-click="saveProfile()"><i class="fa fa-check"></i> Save as My Character</a></td>
+            </tr>
+
+            <tr ng-show="isMyProfile()">
+              <td><a href="" ng-click="unlinkProfile()"><i class="fa fa-remove"></i> Unlink from my profile</a></td>
+            </tr>
+
+            <tr>
+              <td><a ng-href="{{character.suggestedFeatsPath}}"><i class="fa fa-line-chart"></i> See Suggested Feats</a></td>
+            </tr>
+          </tbody>
+        </table>
+
       </div>
     </div>
   </div>
@@ -27,6 +39,11 @@
             <tr>
               <td>League</td>
               <td class="text-right">{{character.league}}</td>
+            </tr>
+
+            <tr>
+              <td>World</td>
+              <td class="text-right">{{character.world.toUpperCase()}}</td>
             </tr>
 
             <tr>
@@ -175,15 +192,4 @@
 
       </div>
     </div>
-
-    <div class="panel panel-warning">
-      <div class="panel-heading">Suggested Feats</div>
-      <div class="panel-body">
-
-
-
-      </div>
-    </div>
-  </div>
-
 </div>

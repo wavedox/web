@@ -8,36 +8,43 @@
 
   var alertTitleMap = {
     success: 'Oh Yeah',
-    info: 'Info',
-    error: 'Oh Snap'
+    primary: 'Info',
+    danger: 'Oh Snap'
   };
 
   var alertIconStyleMap = {
     success: 'fa-check-circle',
-    info: 'fa-info-circle',
-    error: 'fa-exclamation-circle'
+    primary: 'fa-info-circle',
+    danger: 'fa-exclamation-circle'
   };
 
   function AlertModelFactory() {
     return AlertModel;
 
-    function AlertModel(level, message, alerts) {
-      this.level = level;
+    function AlertModel(style, message, alerts) {
+      this.style = style;
       this.message = message;
       this.alerts = alerts;
 
       this.title = function() {
-        return alertTitleMap[this.level];
+        return alertTitleMap[this.style];
       };
 
       this.iconStyle = function() {
-        return alertIconStyleMap[this.level];
+        return alertIconStyleMap[this.style];
+      };
+
+      this.flash = function() {
+        $('#social-box').css('opacity', 0).fadeTo('slow', 1);
       };
 
       this.dismiss = function() {
         var index = this.alerts.indexOf(this);
         this.alerts.splice(index, 1);
+        this.flash();
       };
+
+      this.flash();
     }
   }
 
@@ -57,12 +64,12 @@
 
       info: function(message) {
         this.clear();
-        this.alerts.push(new AlertModel('info', message, this.alerts));
+        this.alerts.push(new AlertModel('primary', message, this.alerts));
       },
 
       error: function(message, data, label) {
         this.clear();
-        this.alerts.push(new AlertModel('error', message, this.alerts));
+        this.alerts.push(new AlertModel('danger', message, this.alerts));
         if (Env.isDev()) console.error(label || 'Alert', data);
       },
 

@@ -3,10 +3,10 @@
 
   // Search Ctrl
 
-  SearchCtrl.$inject = ['$scope', 'SearchModel'];
+  SearchCtrl.$inject = ['$scope', 'SearchModel', 'SearchService'];
   wavedox.controller('SearchCtrl', SearchCtrl);
 
-  function SearchCtrl($scope, SearchModel) {
+  function SearchCtrl($scope, SearchModel, SearchService) {
     $scope.searchModel = new SearchModel();
 
     // Placeholder
@@ -61,10 +61,10 @@
 
   // Search Service
 
-  SearchService.$inject = ['$location'];
+  SearchService.$inject = ['$location', 'Alert'];
   wavedox.service('SearchService', SearchService);
 
-  function SearchService($location) {
+  function SearchService($location, Alert) {
     return {
 
       // Search
@@ -74,7 +74,7 @@
         var endpoint = searchModel.dataType.trim().toLowerCase() + 's';
 
         if (searchModel.cardinality === 'all' && keyword.length < 3) {
-          alert('Enter at least 3 letters to find all matching ' + endpoint + '.');
+          Alert.error('Enter at least 3 letters to find all matching ' + endpoint + '.');
           return;
         }
 

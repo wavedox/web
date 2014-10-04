@@ -3,10 +3,17 @@
 
   // Nav Ctrl
 
-  NavCtrl.$inject = ['$scope'];
+  NavCtrl.$inject = ['$scope', 'ProfileService'];
   wavedox.controller('NavCtrl', NavCtrl);
 
-  function NavCtrl($scope) {
+  function NavCtrl($scope, ProfileService) {
+    $scope.hasProfile = function(type) {
+      return ProfileService.hasProfile(type);
+    };
+
+    $scope.profileUrl = function(type) {
+      return ProfileService.profileUrl(type);
+    };
   }
 
   // Close nav on click Directive
