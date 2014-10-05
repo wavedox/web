@@ -7,7 +7,7 @@
       </div>
 
       <div class="panel-body">
-        <img class="character-image" ng-src="{{character.image}}">
+        <img class="character-image" ng-src="{{character.image}}" onerror="this.onerror = null; this.src='/assets/placeholder.gif'; return false">
 
         <table class="wd-table interactions">
           <tbody>
@@ -38,7 +38,9 @@
           <tbody>
             <tr>
               <td>League</td>
-              <td class="text-right">{{character.league}}</td>
+              <td class="text-right">
+                <a ng-href="{{character.leaguePath}}"><i class="fa fa-chevron-circle-right"></i> {{character.league}}</a>
+              </td>
             </tr>
 
             <tr>

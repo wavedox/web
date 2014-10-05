@@ -8,7 +8,7 @@
 
   var alertTitleMap = {
     success: 'Oh Yeah',
-    primary: 'Info',
+    primary: 'Hey',
     danger: 'Oh Snap'
   };
 
@@ -19,33 +19,33 @@
   };
 
   function AlertModelFactory() {
-    return AlertModel;
 
     function AlertModel(style, message, alerts) {
       this.style = style;
       this.message = message;
       this.alerts = alerts;
-
-      this.title = function() {
-        return alertTitleMap[this.style];
-      };
-
-      this.iconStyle = function() {
-        return alertIconStyleMap[this.style];
-      };
-
-      this.flash = function() {
-        $('#social-box').css('opacity', 0).fadeTo('slow', 1);
-      };
-
-      this.dismiss = function() {
-        var index = this.alerts.indexOf(this);
-        this.alerts.splice(index, 1);
-        this.flash();
-      };
-
       this.flash();
     }
+
+    AlertModel.prototype.title = function() {
+      return alertTitleMap[this.style];
+    };
+
+    AlertModel.prototype.iconStyle = function() {
+      return alertIconStyleMap[this.style];
+    };
+
+    AlertModel.prototype.flash = function() {
+      $('#social-box').css('opacity', 0).fadeTo('slow', 1);
+    };
+
+    AlertModel.prototype.dismiss = function() {
+      var index = this.alerts.indexOf(this);
+      this.alerts.splice(index, 1);
+      this.flash();
+    };
+
+    return AlertModel;
   }
 
   // Alert Service

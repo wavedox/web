@@ -15,7 +15,7 @@
 
     <div class="btn-group">
       <button class="btn btn-xs btn-default dropdown-toggle" type="button" data-toggle="dropdown">
-        {{searchModel.cardinality}} <span class="caret"></span>
+        {{searchModel.cardinality}} <i class="fa fa-chevron-down"></i>
       </button>
       <ul class="dropdown-menu" role="menu">
         <li><a href="" ng-click="searchModel.set('cardinality', 'one')">one</a></li>
@@ -25,7 +25,7 @@
 
     <div class="btn-group">
       <button class="btn btn-xs btn-default dropdown-toggle" type="button" data-toggle="dropdown">
-        {{searchModel.dataType}}{{searchModel.pluralize()}} <span class="caret"></span>
+        {{searchModel.dataType}}{{searchModel.pluralize()}} <i class="fa fa-chevron-down"></i>
       </button>
       <ul class="dropdown-menu" role="menu">
         <li><a href="" ng-click="searchModel.set('dataType', 'character')">character{{searchModel.pluralize()}}</a></li>
@@ -37,7 +37,7 @@
 
     <div class="btn-group">
       <button class="btn btn-xs btn-default dropdown-toggle" type="button" data-toggle="dropdown">
-        {{searchModel.world.toUpperCase()}} <span class="caret"></span>
+        {{searchModel.world.toUpperCase()}} <i class="fa fa-chevron-down"></i>
       </button>
       <ul class="dropdown-menu dropdown-menu-right" role="menu">
         <li><a href="" ng-click="searchModel.set('world', 'usps')">USPS</a></li>

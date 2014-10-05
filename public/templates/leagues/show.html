@@ -1,0 +1,87 @@
+<div class="row" ng-controller="LeagueCtrl">
+  <div class="col-sm-4 col-md-3">
+    <div class="panel panel-warning">
+
+      <div class="panel-heading">
+        <h1>{{league.name}}</h1>
+      </div>
+
+      <div class="panel-body">
+        <table class="wd-table">
+          <tbody>
+            <tr>
+              <td>World</td>
+              <td class="text-right">{{league.world}}</td>
+            </tr>
+
+            <tr>
+              <td>Faction</td>
+              <td class="text-right">{{league.faction}}</td>
+            </tr>
+
+            <tr>
+              <td>Members</td>
+              <td class="text-right">{{league.members.length}}</td>
+            </tr>
+
+            <tr>
+              <td>Average PvE CR</td>
+              <td class="text-right">{{league.averagePveCr}}</td>
+            </tr>
+
+            <tr>
+              <td>Average PvP CR</td>
+              <td class="text-right">{{league.averagePvpCr}}</td>
+            </tr>
+
+            <tr>
+              <td>Average Skill Points</td>
+              <td class="text-right">{{league.averageSkillPoints}}</td>
+            </tr>
+          </tbody>
+        </table>
+
+      </div>
+    </div>
+  </div>
+
+  <div class="col-sm-4 col-md-3" ng-repeat="member in league.members">
+    <div class="panel panel-success">
+
+        <div class="panel-heading">
+          <a ng-href="{{member.path}}">
+            <small>
+              <span class="member-rank">{{member.rankDisplay}}</span>
+              {{member.name}}
+            </small>
+          </a>
+        </div>
+
+      <div class="panel-body">
+        <a class="member-link" ng-href="{{member.path}}">
+          <img class="character-image" ng-src="{{member.image}}" onerror="this.onerror = null; this.src='/assets/placeholder.gif'">
+        </a>
+
+        <table class="wd-table member-overview">
+          <tbody>
+            <tr>
+              <td>PvE CR</td>
+              <td class="text-right">{{member.pveCr}}</td>
+            </tr>
+
+            <tr>
+              <td>PvP CR</td>
+              <td class="text-right">{{member.pvpCr}}</td>
+            </tr>
+
+            <tr>
+              <td>Skill Points</td>
+              <td class="text-right">{{member.skillPoints}}</td>
+            </tr>
+          </tbody>
+        </table>
+
+      </div>
+    </div>
+  </div>
+</div>

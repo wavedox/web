@@ -27,7 +27,7 @@
       </ul>
 
       <ul class="nav navbar-nav navbar-right hidden-xs">
-        <li class="dropdown" ng-show="hasProfile('character')">
+        <li class="dropdown" ng-class="{ disabled: !hasProfile('character') }">
 
           <a href="" class="dropdown-toggle" data-toggle="dropdown">
             My Profile

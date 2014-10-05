@@ -65,7 +65,7 @@
       c.faction = _.getPath(soe, 'alignment_id_join_alignment.name.en');
       c.origin = _.getPath(soe, 'origin_id_join_origin.name.en');
 
-      c.mentor = Census.mentors[c.faction.toLowerCase()][c.origin.toLowerCase()];
+      if (c.faction && c.origin) c.mentor = Census.mentors[c.faction.toLowerCase()][c.origin.toLowerCase()];
       c.power = _.getPath(soe, 'power_type_id_join_power_type.name.en');
       c.movement = _.getPath(soe, 'movement_mode_id_join_movement_mode.name.en');
       c.weapon = _.getPath(soe, 'power_source_id_join_power_source.name.en');
