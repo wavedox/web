@@ -1,0 +1,76 @@
+<div class="row" ng-controller="CharacterSearchCtrl">
+
+  <div class="col-sm-4 col-md-3">
+    <div class="panel panel-warning">
+
+      <div class="panel-heading">
+        <small>
+          {{visibleCharacters.length}}
+          character<span ng-show="visibleCharacters.length != 1">s</span>
+          found in {{params.world.toUpperCase()}}
+        </small>
+      </div>
+
+      <div class="panel-body">
+        <table class="wd-table interactions">
+          <tbody>
+            <tr>
+              <td>
+                <a href="" ng-click="hideOutdated = false" ng-show="hideOutdated"><i class="fa fa-toggle-on"></i> Hide outdated characters</a>
+                <a href="" ng-click="hideOutdated = true" ng-show="!hideOutdated"><i class="fa fa-toggle-off"></i> Hide outdated characters</a>
+              </td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+
+    </div>
+  </div>
+
+  <div class="col-sm-4 col-md-3" ng-repeat="character in visibleCharacters = (characters | characterFilter:hideOutdated)">
+    <div class="panel panel-success">
+
+        <div class="panel-heading">
+          <a ng-href="{{character.path}}">
+            <small>{{character.name}}</small>
+          </a>
+        </div>
+
+      <div class="panel-body">
+        <a class="character-link" ng-href="{{character.path}}">
+          <img class="character-image" ng-src="{{character.image}}" onerror="this.onerror = null; this.src='/assets/placeholder.gif'">
+        </a>
+
+        <table class="wd-table character-highlights">
+          <tbody>
+            <tr>
+              <td>League</td>
+              <td class="text-right">{{character.league}}</td>
+            </tr>
+
+            <tr>
+              <td>Power</td>
+              <td class="text-right">{{character.power}}</td>
+            </tr>
+
+            <tr>
+              <td>PvE CR</td>
+              <td class="text-right">{{character.pveCr}}</td>
+            </tr>
+
+            <tr>
+              <td>PvP CR</td>
+              <td class="text-right">{{character.pvpCr}}</td>
+            </tr>
+
+            <tr>
+              <td>Skill Points</td>
+              <td class="text-right">{{character.skillPoints}}</td>
+            </tr>
+          </tbody>
+        </table>
+
+      </div>
+    </div>
+  </div>
+</div>

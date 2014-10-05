@@ -7,12 +7,12 @@
   wavedox.controller('LeagueCtrl', LeagueCtrl);
 
   function LeagueCtrl($scope, $routeParams, LeagueService) {
-    var params = {
+    $scope.params = {
       name: $routeParams.name,
       world: $routeParams.world
     };
 
-    LeagueService.findOne(params, function(league) {
+    LeagueService.findOne($scope.params, function(league) {
       $scope.league = league;
     });
   }
@@ -23,12 +23,14 @@
   wavedox.controller('LeagueSearchCtrl', LeagueSearchCtrl);
 
   function LeagueSearchCtrl($scope, $routeParams, $location, LeagueService) {
-    var params = {
+    $scope.hideOutdated = true;
+
+    $scope.params = {
       name: $location.search().keyword,
       world: $routeParams.world
     };
 
-    LeagueService.findAll(params, function(leagues) {
+    LeagueService.findAll($scope.params, function(leagues) {
       $scope.leagues = leagues;
     });
   }
@@ -81,19 +83,17 @@
 
     // Ranks
 
-    League.ranks = function() {
-      return {
-        0: '★★',
-        1: '★||||',
-        2: '★|||',
-        3: '★||',
-        4: '★|',
-        5: '★',
-        6: '||||',
-        7: '|||',
-        8: '||',
-        9: '|'
-      }
+    League.ranks = {
+      0: '★★',
+      1: '★||||',
+      2: '★|||',
+      3: '★||',
+      4: '★|',
+      5: '★',
+      6: '||||',
+      7: '|||',
+      8: '||',
+      9: '|'
     };
 
     // Parse League

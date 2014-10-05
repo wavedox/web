@@ -3,10 +3,25 @@
   margin-bottom: 10px
   width: 100%
 
+.character-rank
+  font-weight: 700
+  opacity: .5
+
+.character-link
+  &:hover
+    opacity: .8
+
+    img
+      border-color: lighten($gray, 17%)
+
 @media (max-width: $screen-xs-max)
   .character-image
     display: block
 
   .character-image, .interactions
+    margin: 0 auto
+    max-width: 250px
+
+  .character-highlights
     margin: 0 auto
     max-width: 250px

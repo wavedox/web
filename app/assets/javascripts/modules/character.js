@@ -7,12 +7,12 @@
   wavedox.controller('CharacterCtrl', CharacterCtrl);
 
   function CharacterCtrl($scope, $routeParams, CharacterService, ProfileService) {
-    var params = {
+    $scope.params = {
       name: $routeParams.name,
       world: $routeParams.world
     };
 
-    CharacterService.findOne(params, function(character) {
+    CharacterService.findOne($scope.params, function(character) {
       $scope.character = character;
     });
 
@@ -29,32 +29,65 @@
     };
   }
 
+  // Character Search Ctrl
+
+  CharacterSearchCtrl.$inject = ['$scope', '$routeParams', '$location', 'CharacterService'];
+  wavedox.controller('CharacterSearchCtrl', CharacterSearchCtrl);
+
+  function CharacterSearchCtrl($scope, $routeParams, $location, CharacterService) {
+    $scope.hideOutdated = true;
+
+    $scope.params = {
+      name: $location.search().keyword,
+      world: $routeParams.world
+    };
+
+    CharacterService.findAll($scope.params, function(characters) {
+      $scope.characters = characters;
+    });
+  }
+
+  wavedox.filter('characterFilter', function() {
+    return function(characters, hideOutdated) {
+      return _.filter(characters, function(c) {
+        return !c.isOutdated() || !hideOutdated;
+      });
+    };
+  });
+
   // Character Model
 
   CharacterFactory.$inject = ['Census'];
   wavedox.factory('Character', CharacterFactory);
 
   function CharacterFactory(Census) {
-    Character.parse = parseCharacter;
-    return Character;
 
     function Character() {
-      this.hasControllerRole = function() {
-        return _.include(['Gadgets', 'Light', 'Mental', 'Munitions', 'Quantum'], this.power);
-      };
-
-      this.hasHealerRole = function() {
-        return _.include(['Atomic', 'Celestial', 'Electricity', 'Nature', 'Sorcery'], this.power);
-      };
-
-      this.hasTankRole = function() {
-        return _.include(['Earth', 'Experimental Serums', 'Fire', 'Ice', 'Rage'], this.power);
-      };
     }
 
-    // Parser
+    // Has role
 
-    function parseCharacter(soe, soeLeague) {
+    Character.prototype.hasControllerRole = function() {
+      return _.include(['Gadgets', 'Light', 'Mental', 'Munitions', 'Quantum'], this.power);
+    };
+
+    Character.prototype.hasHealerRole = function() {
+      return _.include(['Atomic', 'Celestial', 'Electricity', 'Nature', 'Sorcery'], this.power);
+    };
+
+    Character.prototype.hasTankRole = function() {
+      return _.include(['Earth', 'Experimental Serums', 'Fire', 'Ice', 'Rage'], this.power);
+    };
+
+    // Is outdated
+
+    Character.prototype.isOutdated = function() {
+      return !this.pveCr || !this.skillPoints;
+    };
+
+    // Parse Character
+
+    Character.parse = function(soe, soeLeague) {
       var c = new Character();
 
       // Overview
@@ -104,7 +137,9 @@
       c.suggestedFeatsPath = c.path + '/suggested-feats';
 
       return c;
-    }
+    };
+
+    return Character;
   }
 
   // Character Service
@@ -114,10 +149,15 @@
 
   function CharacterService(Census, Character) {
     return {
+
+      // Find one
+
       findOne: function(params, callback) {
         //var id = ???
         var name = params.name;
         var worldId = Census.worlds[params.world];
+
+        // Fetch character
 
         var path = '/character'
                  // + '?character_id=' + id
@@ -140,16 +180,40 @@
 
           var league = _.getPath(hash, 'character_id_join_guild_roster.guild_id_join_guild');
           var character = Character.parse(hash, league);
-          callback(character);
+
+          // Fetch completed feat count
 
           var completedFeatPath = '/characters_completed_feat?character_id=' + character.id;
           Census.count(completedFeatPath, function(response) {
             character.featsCompleted = response.count;
           });
+
+          callback(character);
         });
       },
 
+      // Find all
+
       findAll: function(params, callback) {
+        var name = params.name;
+        var worldId = Census.worlds[params.world];
+
+        var path = '/character?name=*' + name + '&deleted=false'
+                 + '&c:show=character_id,name,combat_rating,pvp_combat_rating,skill_points,power_type_id,world_id'
+                 + '&world_id=' + worldId + '&c:lang=en&c:case=false&c:limit=9999&c:sort=name&c:join='
+                 + 'guild_roster^on:character_id^to:character_id(guild^terms:world_id=' + worldId + '^show:name),'
+                 + 'power_type^on:power_type_id^to:power_type_id^show:name.en';
+
+        Census.get(path, function(response) {
+          var list = response['character_list'] || [];
+
+          var characters = _.map(list, function(hash) {
+            var league = _.getPath(hash, 'character_id_join_guild_roster.guild_id_join_guild');
+            return Character.parse(_.extend(hash, { world_id: worldId }), league);
+          });
+
+          callback(characters);
+        });
       }
     };
   }
