@@ -38,11 +38,28 @@
 
   function CharacterSearchCtrl($scope, $routeParams, $location, CharacterService) {
     $('body').animate({ scrollTop: 0 }, 'fast');
+    $scope.showImages = true;
     $scope.hideOutdated = true;
+    $scope.hideMissingImages = false;
 
     $scope.params = {
       name: $location.search().keyword,
       world: $routeParams.world
+    };
+
+    $scope.toggle = function(key) {
+      $scope[key] = !$scope[key];
+      if (key === 'showImages' && !$scope.showImages) $scope.hideMissingImages = false;
+    };
+
+    $scope.hasImage = function(character) {
+      var el = $('.character-image.id-' + character.id)[0];
+      return !$scope.hideMissingImages || (el && !!el.onerror);
+    };
+
+    $scope.countCharacters = function() {
+      if ($scope.showImages) return $('.character-image:visible').size();
+      return $('.character-link').size();
     };
 
     CharacterService.findAll($scope.params, function(characters) {
@@ -50,10 +67,12 @@
     });
   }
 
+  // Character Filter
+
   wavedox.filter('characterFilter', function() {
     return function(characters, hideOutdated) {
       return _.filter(characters, function(c) {
-        return !c.isOutdated() || !hideOutdated;
+        return !hideOutdated || c.isUpToDate();
       });
     };
   });
@@ -84,8 +103,8 @@
 
     // Is outdated
 
-    Character.prototype.isOutdated = function() {
-      return !this.pveCr || !this.skillPoints;
+    Character.prototype.isUpToDate = function() {
+      return this.pveCr && this.skillPoints && !this.name.match(/deleted/);
     };
 
     // Parse Character

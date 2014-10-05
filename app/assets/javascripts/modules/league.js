@@ -8,10 +8,28 @@
 
   function LeagueCtrl($scope, $routeParams, LeagueService) {
     $('body').animate({ scrollTop: 0 }, 'fast');
+    $scope.showImages = true;
+    $scope.hideOutdated = true;
+    $scope.hideMissingImages = false;
 
     $scope.params = {
       name: $routeParams.name,
       world: $routeParams.world
+    };
+
+    $scope.toggle = function(key) {
+      $scope[key] = !$scope[key];
+      if (key === 'showImages' && !$scope.showImages) $scope.hideMissingImages = false;
+    };
+
+    $scope.hasImage = function(member) {
+      var el = $('.character-image.id-' + member.id)[0];
+      return !$scope.hideMissingImages || (el && !!el.onerror);
+    };
+
+    $scope.countMembers = function() {
+      if ($scope.showImages) return $('.character-image:visible').size();
+      return $('.character-link').size();
     };
 
     LeagueService.findOne($scope.params, function(league) {
@@ -173,11 +191,10 @@
           Census.get(rosterPath, function(rosterResponse) {
             var rosterList = rosterResponse['guild_roster_list'] || [];
             league.members = League.parseRoster(rosterList);
-            league.faction = league.members[0].faction;
+            league.faction = league.members[0] && league.members[0].faction;
             league.calculateAverages();
-          })
-
-          callback(league);
+            callback(league);
+          });
         });
       },
 

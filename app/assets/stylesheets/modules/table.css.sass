@@ -17,16 +17,30 @@
         td
           border-bottom: none
 
-  &.interactions
-    tbody
-      tr
-        td
-          padding: 0
+  tbody.continuous
+    tr
+      td
+        border-top: 1px solid lighten($gray, 3%)
 
-          a
-            color: $gray-light
-            display: block
-            padding: 5px 5px 5px 12px
+  tbody.interactions
+    tr
+      td
+        padding: 0
 
-            &:hover
-              color: $gray-lighter
+        a
+          color: $gray-light
+          display: block
+          padding: 5px
+
+          &:hover
+            color: $gray-lighter
+
+    tr.disabled
+      opacity: .5
+      pointer-events: none
+
+  tbody.image-fit
+    tr
+      td
+        a
+          padding: 5px 5px 5px 12px

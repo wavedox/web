@@ -3,14 +3,15 @@
     <div class="panel panel-warning">
 
       <div class="panel-heading">
-        <h1>{{character.name}}</h1>
+        <span ng-if="!character">Loading...</span>
+        <h1 ng-if="character">{{character.name}}</h1>
       </div>
 
-      <div class="panel-body">
+      <div class="panel-body" ng-if="character">
         <img class="character-image" ng-src="{{character.image}}" onerror="this.onerror = null; this.src='/assets/placeholder.gif'; return false">
 
-        <table class="wd-table interactions">
-          <tbody>
+        <table class="wd-table">
+          <tbody class="interactions image-fit">
             <tr ng-hide="isMyProfile()">
               <td><a href="" ng-click="saveProfile()"><i class="fa fa-check"></i> Save as My Character</a></td>
             </tr>
@@ -29,7 +30,7 @@
     </div>
   </div>
 
-  <div class="col-sm-8 col-md-5">
+  <div class="col-sm-8 col-md-5" ng-if="character">
     <div class="panel panel-success">
       <div class="panel-heading">Overview</div>
       <div class="panel-body">
@@ -99,7 +100,7 @@
       </div>
     </div>
 
-    <div class="panel panel-success">
+    <div class="panel panel-success" ng-if="character">
       <div class="panel-heading">Stats</div>
       <div class="panel-body">
 
@@ -157,7 +158,7 @@
     </div>
   </div>
 
-  <div class="col-sm-12 col-md-4">
+  <div class="col-sm-12 col-md-4" ng-if="character">
     <div class="panel panel-warning">
       <div class="panel-heading">Progress</div>
       <div class="panel-body">

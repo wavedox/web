@@ -3,10 +3,11 @@
     <div class="panel panel-warning">
 
       <div class="panel-heading">
-        <h1>{{league.name}}</h1>
+        <span ng-if="!league">Loading...</span>
+        <h1 ng-if="league">{{league.name}}</h1>
       </div>
 
-      <div class="panel-body">
+      <div class="panel-body" ng-if="league">
         <table class="wd-table">
           <tbody>
             <tr>
@@ -21,7 +22,7 @@
 
             <tr>
               <td>Members</td>
-              <td class="text-right">{{league.members.length}}</td>
+              <td class="text-right">{{countMembers()}}</td>
             </tr>
 
             <tr>
@@ -39,16 +40,39 @@
               <td class="text-right">{{league.avgSkillPoints}}</td>
             </tr>
           </tbody>
+
+          <tbody class="interactions continuous">
+            <tr>
+              <td colspan="2">
+                <a href="" ng-click="toggle('showImages')" ng-show="showImages"><i class="fa fa-toggle-on"></i> Show character images</a>
+                <a href="" ng-click="toggle('showImages')" ng-show="!showImages"><i class="fa fa-toggle-off"></i> Show character images</a>
+              </td>
+            </tr>
+
+            <tr>
+              <td colspan="2">
+                <a href="" ng-click="toggle('hideOutdated')" ng-show="hideOutdated"><i class="fa fa-toggle-on"></i> Hide outdated characters</a>
+                <a href="" ng-click="toggle('hideOutdated')" ng-show="!hideOutdated"><i class="fa fa-toggle-off"></i> Hide outdated characters</a>
+              </td>
+            </tr>
+
+            <tr ng-class="{ disabled: !showImages }">
+              <td colspan="2">
+                <a href="" ng-click="toggle('hideMissingImages')" ng-show="hideMissingImages"><i class="fa fa-toggle-on"></i> Hide missing images</a>
+                <a href="" ng-click="toggle('hideMissingImages')" ng-show="!hideMissingImages"><i class="fa fa-toggle-off"></i> Hide missing images</a>
+              </td>
+            </tr>
+          </tbody>
         </table>
 
       </div>
     </div>
   </div>
 
-  <div class="col-sm-4 col-md-3" ng-repeat="member in league.members">
+  <div class="col-sm-4 col-md-3" ng-repeat="member in visibleMembers = (league.members | characterFilter:hideOutdated)" ng-show="hasImage(member)">
     <div class="panel panel-success">
 
-        <div class="panel-heading">
+        <div class="panel-heading panel-link">
           <a ng-href="{{member.path}}">
             <small>
               <span class="character-rank">{{member.rankDisplay}}</span>
@@ -59,7 +83,8 @@
 
       <div class="panel-body">
         <a class="character-link" ng-href="{{member.path}}">
-          <img class="character-image" ng-src="{{member.image}}" onerror="this.onerror = null; this.src='/assets/placeholder.gif'">
+          <img class="character-image id-{{member.id}}" ng-src="{{member.image}}" ng-show="showImages"
+               onerror="this.onerror = null; this.src='/assets/placeholder.gif'">
         </a>
 
         <table class="wd-table character-highlights">
