@@ -17,23 +17,35 @@
     });
   }
 
+  // League Search Ctrl
+
+  LeagueSearchCtrl.$inject = ['$scope', '$routeParams', '$location', 'LeagueService'];
+  wavedox.controller('LeagueSearchCtrl', LeagueSearchCtrl);
+
+  function LeagueSearchCtrl($scope, $routeParams, $location, LeagueService) {
+    var params = {
+      name: $location.search().keyword,
+      world: $routeParams.world
+    };
+
+    LeagueService.findAll(params, function(leagues) {
+      $scope.leagues = leagues;
+    });
+  }
+
   // League Model
 
   LeagueFactory.$inject = ['Census', 'Character'];
   wavedox.factory('League', LeagueFactory);
 
   function LeagueFactory(Census, Character) {
-    League.parse = parseLeague;
-    League.parseRoster = parseRoster;
-    League.ranks = ranks();
-    return League;
 
     function League() {
     }
 
     // Ranks
 
-    function ranks() {
+    League.ranks = function() {
       return {
         0: '★★',
         1: '★||||',
@@ -46,28 +58,22 @@
         8: '||',
         9: '|'
       }
-    }
+    };
 
     // Parse League
 
-    function parseLeague(soe) {
+    League.parse = function(soe) {
       var c = new League();
-
-      // Overview
-
       c.id = soe.guild_id;
       c.name = soe.name;
-
-      // Paths
-
+      c.world = Census.worlds.reverse[_.str.toNumber(soe.world_id)];
       c.path = '/worlds/' + c.world + '/leagues/' + c.name.toLowerCase();
-
       return c;
-    }
+    };
 
     // Parse Roster
 
-    function parseRoster(list) {
+    League.parseRoster = function(list) {
       var characters = [];
 
       _.each(list, function(joinMember) {
@@ -84,7 +90,9 @@
       return _.sortBy(characters, function(c) {
         return [c.rank, c.name];
       });
-    }
+    };
+
+    return League;
   }
 
   // League Service
@@ -94,9 +102,14 @@
 
   function LeagueService(Census, League) {
     return {
+
+      // Find one
+
       findOne: function(params, callback) {
         var name = params.name;
         var worldId = Census.worlds[params.world];
+
+        // Fetch league
 
         var path = '/guild'
                  + '?name=' + name + '&world_id=' + worldId
@@ -107,7 +120,9 @@
           var hash = _.first(list) || {};
           if (!hash) return callback();
 
-          var league = League.parse(hash);
+          var league = League.parse(_.extend(hash, { world_id: worldId }));
+
+          // Fetch members
 
           var rosterPath = '/guild_roster?guild_id=' + league.id
                          + '&world_id=' + worldId + '&c:lang=en&c:limit=9999&c:show=character_id,rank&c:join='
@@ -119,13 +134,33 @@
           Census.get(rosterPath, function(rosterResponse) {
             var rosterList = rosterResponse['guild_roster_list'] || [];
             league.members = League.parseRoster(rosterList);
+            league.faction = league.members[0].faction;
+            league.calculateAverages();
           })
 
           callback(league);
         });
       },
 
+      // Find all
+
       findAll: function(params, callback) {
+        var name = params.name;
+        var worldId = Census.worlds[params.world];
+
+        var path = '/guild?name=*' + name
+                 + '&world_id=' + worldId + '&c:lang=en&c:case=false&c:limit=9999&c:sort=name'
+                 + '&c:show=guild_id,name';
+
+        Census.get(path, function(response) {
+          var list = response['guild_list'] || [];
+
+          var leagues = _.map(list, function(hash) {
+            return League.parse(_.extend(hash, { world_id: worldId }));
+          });
+
+          callback(leagues);
+        });
       }
     };
   }

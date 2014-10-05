@@ -1,0 +1,23 @@
+<div class="row" ng-controller="LeagueSearchCtrl">
+
+  <div class="col-sm-4 col-md-3">
+    <div class="panel panel-warning">
+      <div class="panel-heading">
+        {{leagues.length}}
+        league<span ng-show="leagues.length != 1">s</span>
+        found
+      </div>
+    </div>
+  </div>
+
+  <div class="col-sm-4 col-md-3" ng-repeat="league in leagues">
+    <div class="panel panel-success">
+      <div class="panel-heading">
+        <a ng-href="{{league.path}}">
+          <small>{{league.name}}</small>
+        </a>
+      </div>
+    </div>
+  </div>
+
+</div>
