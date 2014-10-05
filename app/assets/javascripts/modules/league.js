@@ -7,6 +7,8 @@
   wavedox.controller('LeagueCtrl', LeagueCtrl);
 
   function LeagueCtrl($scope, $routeParams, LeagueService) {
+    $('body').animate({ scrollTop: 0 }, 'fast');
+
     $scope.params = {
       name: $routeParams.name,
       world: $routeParams.world
@@ -23,6 +25,7 @@
   wavedox.controller('LeagueSearchCtrl', LeagueSearchCtrl);
 
   function LeagueSearchCtrl($scope, $routeParams, $location, LeagueService) {
+    $('body').animate({ scrollTop: 0 }, 'fast');
     $scope.hideOutdated = true;
 
     $scope.params = {

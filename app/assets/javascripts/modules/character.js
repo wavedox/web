@@ -7,6 +7,8 @@
   wavedox.controller('CharacterCtrl', CharacterCtrl);
 
   function CharacterCtrl($scope, $routeParams, CharacterService, ProfileService) {
+    $('body').animate({ scrollTop: 0 }, 'fast');
+
     $scope.params = {
       name: $routeParams.name,
       world: $routeParams.world
@@ -35,6 +37,7 @@
   wavedox.controller('CharacterSearchCtrl', CharacterSearchCtrl);
 
   function CharacterSearchCtrl($scope, $routeParams, $location, CharacterService) {
+    $('body').animate({ scrollTop: 0 }, 'fast');
     $scope.hideOutdated = true;
 
     $scope.params = {
