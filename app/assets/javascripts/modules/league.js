@@ -43,6 +43,42 @@
     function League() {
     }
 
+    // Calculate Averages
+
+    League.prototype.calculateAverages = function() {
+
+      var pveCrBase = 0,
+          pvpCrBase = 0,
+          skillPointsBase = 0;
+
+      this.avgPveCr = 0;
+      this.avgPvpCr = 0;
+      this.avgSkillPoints = 0;
+
+      _.each(this.members, function(member) {
+        if (member.level < 30) return;
+
+        if (member.pveCr > 0) {
+          this.avgPveCr += member.pveCr;
+          pveCrBase++;
+        }
+
+        if (member.pvpCr > 0) {
+          this.avgPvpCr += member.pvpCr;
+          pvpCrBase++;
+        }
+
+        if (member.skillPoints > 0) {
+          this.avgSkillPoints += member.skillPoints;
+          skillPointsBase += 1;
+        }
+      }, this);
+
+      this.avgPveCr = Math.round(this.avgPveCr / (pveCrBase || 1));
+      this.avgPvpCr = Math.round(this.avgPvpCr / (pvpCrBase || 1));
+      this.avgSkillPoints = Math.round(this.avgSkillPoints / (skillPointsBase || 1));
+    };
+
     // Ranks
 
     League.ranks = function() {
