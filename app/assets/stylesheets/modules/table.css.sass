@@ -8,7 +8,7 @@
     tr
       td
         border-bottom: 1px solid lighten($gray, 3%)
-        padding: 5px
+        padding: 10px 5px
 
       &:hover
         background: lighten($gray, 1%)
@@ -30,7 +30,7 @@
         a
           color: $gray-light
           display: block
-          padding: 5px
+          padding: 10px 5px
 
           &:hover
             color: $gray-lighter
@@ -43,4 +43,10 @@
     tr
       td
         a
-          padding: 5px 5px 5px 12px
+          padding: 10px 5px 10px 12px
+
+@media (max-width: $screen-xs-max)
+  .wd-table
+    tbody.interactions
+      tr td a
+        padding: 15px 5px

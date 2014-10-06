@@ -1,3 +1,11 @@
+h1
+  font-size: inherit
+  line-height: inherit
+  margin: inherit
+
+a:hover
+  text-decoration: none
+
 .navbar-default
   box-shadow: 0 6px 12px rgba(0, 0, 0, 0.175)
 
@@ -12,17 +20,17 @@
   cursor: not-allowed !important
   pointer-events: none
 
-h1
-  font-size: inherit
-  line-height: inherit
-  margin: inherit
-
-a:hover
-  text-decoration: none
-
 .navbar-toggle
   margin: 0
   padding: 17px 20px
+
+.collapse.in li > a
+  padding-top: 15px
+  padding-bottom: 15px
+  transition: all 0.2s ease
+
+.dropdown-menu > li > a
+  padding: 10px 20px
 
 .panel, .panel-heading
   border: none

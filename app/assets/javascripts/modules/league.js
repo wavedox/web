@@ -10,7 +10,6 @@
     $('body').animate({ scrollTop: 0 }, 'fast');
 
     $scope.showImages = true;
-    $scope.hideOutdated = true;
 
     $scope.params = {
       name: $routeParams.name,
@@ -19,18 +18,10 @@
 
     $scope.toggle = function(key) {
       $scope[key] = !$scope[key];
-      $scope.filter();
-    };
-
-    $scope.filter = function() {
-      $scope.members = _.filter($scope.league.members, function(m) {
-        return !$scope.hideOutdated || m.isUpToDate();
-      });
     };
 
     LeagueService.findOne($scope.params, function(league) {
       $scope.league = league || {};
-      $scope.filter();
     });
   }
 
@@ -166,9 +157,11 @@
 
         // Fetch league
 
-        var path = '/guild'
-                 + '?name=' + name + '&world_id=' + worldId
-                 + '&c:lang=en&c:case=false&c:show=guild_id,name,world_id';
+        var path = '/guild?name=' + name
+                 + '&world_id=' + worldId
+                 + '&c:lang=en'
+                 + '&c:case=false'
+                 + '&c:show=guild_id,name,world_id';
 
         Census.get(path, function(response) {
           var list = response['guild_list'] || [];
@@ -180,11 +173,14 @@
           // Fetch members
 
           var rosterPath = '/guild_roster?guild_id=' + league.id
-                         + '&world_id=' + worldId + '&c:lang=en&c:limit=99999&c:show=character_id,rank&c:join='
-                         + 'character^on:character_id^to:character_id'
+                         + '&world_id=' + worldId
+                         + '&c:lang=en'
+                         + '&c:limit=100000'
+                         + '&c:show=character_id,rank'
+                         + '&c:join=character^on:character_id^to:character_id'
                          + "^show:name'level'combat_rating'pvp_combat_rating'skill_points'power_type_id'alignment_id'world_id"
                          + '(power_type^on:power_type_id^to:power_type_id^show:name.en,'
-                         + 'alignment^on:alignment_id^to:alignment_id^show:name.en)'
+                         + 'alignment^on:alignment_id^to:alignment_id^show:name.en)';
 
           Census.get(rosterPath, function(rosterResponse) {
             var rosterList = rosterResponse['guild_roster_list'] || [];
@@ -203,7 +199,11 @@
         var worldId = Census.worlds[params.world];
 
         var path = '/guild?name=*' + name
-                 + '&world_id=' + worldId + '&c:lang=en&c:case=false&c:limit=99999&c:sort=name'
+                 + '&world_id=' + worldId
+                 + '&c:lang=en'
+                 + '&c:case=false'
+                 + '&c:limit=100000'
+                 + '&c:sort=name'
                  + '&c:show=guild_id,name';
 
         Census.get(path, function(response) {
@@ -213,7 +213,9 @@
             return League.parse(_.extend(hash, { world_id: worldId }));
           });
 
-          callback(leagues);
+          callback(_.filter(leagues, function(league) {
+            return league.name.indexOf('_deleted') === -1;
+          }));
         });
       }
     };

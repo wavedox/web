@@ -55,13 +55,6 @@
                 <a href="" ng-click="toggle('showImages')" ng-show="!showImages"><i class="fa fa-toggle-off"></i> Show character images</a>
               </td>
             </tr>
-
-            <tr>
-              <td colspan="2">
-                <a href="" ng-click="toggle('hideOutdated')" ng-show="hideOutdated"><i class="fa fa-toggle-on"></i> Hide outdated characters</a>
-                <a href="" ng-click="toggle('hideOutdated')" ng-show="!hideOutdated"><i class="fa fa-toggle-off"></i> Hide outdated characters</a>
-              </td>
-            </tr>
           </tbody>
         </table>
 
@@ -69,7 +62,7 @@
     </div>
   </div>
 
-  <div class="col-sm-4 col-md-3" ng-repeat="member in members">
+  <div class="col-sm-4 col-md-3" ng-repeat="member in league.members">
     <div class="panel panel-success">
 
         <div class="panel-heading panel-link">
