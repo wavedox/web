@@ -8,9 +8,9 @@
 
   function LeagueCtrl($scope, $routeParams, LeagueService) {
     $('body').animate({ scrollTop: 0 }, 'fast');
+
     $scope.showImages = true;
     $scope.hideOutdated = true;
-    $scope.hideMissingImages = false;
 
     $scope.params = {
       name: $routeParams.name,
@@ -19,21 +19,18 @@
 
     $scope.toggle = function(key) {
       $scope[key] = !$scope[key];
-      if (key === 'showImages' && !$scope.showImages) $scope.hideMissingImages = false;
+      $scope.filter();
     };
 
-    $scope.hasImage = function(member) {
-      var el = $('.character-image.id-' + member.id)[0];
-      return !$scope.hideMissingImages || (el && !!el.onerror);
-    };
-
-    $scope.countMembers = function() {
-      if ($scope.showImages) return $('.character-image:visible').size();
-      return $('.character-link').size();
+    $scope.filter = function() {
+      $scope.members = _.filter($scope.league.members, function(m) {
+        return !$scope.hideOutdated || m.isUpToDate();
+      });
     };
 
     LeagueService.findOne($scope.params, function(league) {
-      $scope.league = league;
+      $scope.league = league || {};
+      $scope.filter();
     });
   }
 
@@ -44,6 +41,7 @@
 
   function LeagueSearchCtrl($scope, $routeParams, $location, LeagueService) {
     $('body').animate({ scrollTop: 0 }, 'fast');
+
     $scope.hideOutdated = true;
 
     $scope.params = {
@@ -120,12 +118,12 @@
     // Parse League
 
     League.parse = function(soe) {
-      var c = new League();
-      c.id = soe.guild_id;
-      c.name = soe.name;
-      c.world = Census.worlds.reverse[_.str.toNumber(soe.world_id)];
-      c.path = '/worlds/' + c.world + '/leagues/' + c.name.toLowerCase();
-      return c;
+      var l = new League();
+      l.id = soe.guild_id;
+      l.name = soe.name;
+      l.world = Census.worlds.reverse[_.str.toNumber(soe.world_id)];
+      l.path = '/worlds/' + l.world + '/leagues/' + l.name.toLowerCase();
+      return l;
     };
 
     // Parse Roster
@@ -175,14 +173,14 @@
         Census.get(path, function(response) {
           var list = response['guild_list'] || [];
           var hash = _.first(list) || {};
-          if (!hash) return callback();
+          if (_.isEmpty(hash)) return callback();
 
           var league = League.parse(_.extend(hash, { world_id: worldId }));
 
           // Fetch members
 
           var rosterPath = '/guild_roster?guild_id=' + league.id
-                         + '&world_id=' + worldId + '&c:lang=en&c:limit=9999&c:show=character_id,rank&c:join='
+                         + '&world_id=' + worldId + '&c:lang=en&c:limit=99999&c:show=character_id,rank&c:join='
                          + 'character^on:character_id^to:character_id'
                          + "^show:name'level'combat_rating'pvp_combat_rating'skill_points'power_type_id'alignment_id'world_id"
                          + '(power_type^on:power_type_id^to:power_type_id^show:name.en,'
@@ -205,7 +203,7 @@
         var worldId = Census.worlds[params.world];
 
         var path = '/guild?name=*' + name
-                 + '&world_id=' + worldId + '&c:lang=en&c:case=false&c:limit=9999&c:sort=name'
+                 + '&world_id=' + worldId + '&c:lang=en&c:case=false&c:limit=99999&c:sort=name'
                  + '&c:show=guild_id,name';
 
         Census.get(path, function(response) {

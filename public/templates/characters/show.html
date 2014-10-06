@@ -2,12 +2,19 @@
   <div class="col-sm-4 col-md-3">
     <div class="panel panel-warning">
 
-      <div class="panel-heading">
-        <span ng-if="!character">Loading...</span>
-        <h1 ng-if="character">{{character.name}}</h1>
+      <div class="panel-heading" ng-if="!character">
+        <i class="fa fa-spin fa-circle-o-notch"></i> Loading...
       </div>
 
-      <div class="panel-body" ng-if="character">
+      <div class="panel-heading" ng-if="character && !character.id">
+        Character not found
+      </div>
+
+      <div class="panel-heading" ng-if="character.id">
+        <h1>{{character.name}}</h1>
+      </div>
+
+      <div class="panel-body" ng-if="character.id">
         <img class="character-image" ng-src="{{character.image}}" onerror="this.onerror = null; this.src='/assets/placeholder.gif'; return false">
 
         <table class="wd-table">
@@ -30,7 +37,7 @@
     </div>
   </div>
 
-  <div class="col-sm-8 col-md-5" ng-if="character">
+  <div class="col-sm-8 col-md-5" ng-if="character.id">
     <div class="panel panel-success">
       <div class="panel-heading">Overview</div>
       <div class="panel-body">
@@ -100,7 +107,7 @@
       </div>
     </div>
 
-    <div class="panel panel-success" ng-if="character">
+    <div class="panel panel-success" ng-if="character.id">
       <div class="panel-heading">Stats</div>
       <div class="panel-body">
 
@@ -108,47 +115,47 @@
           <tbody>
             <tr>
               <td>Health</td>
-              <td class="text-right">{{character.currentHealth}} / {{character.maxHealth}}</td>
+              <td class="text-right">{{character.currentHealth | number}} / {{character.maxHealth | number}}</td>
             </tr>
 
             <tr>
               <td>Power</td>
-              <td class="text-right">{{character.currentPower}} / {{character.maxPower}}</td>
+              <td class="text-right">{{character.currentPower | number}} / {{character.maxPower | number}}</td>
             </tr>
 
             <tr>
               <td>Defense</td>
-              <td class="text-right">{{character.defense}}</td>
+              <td class="text-right">{{character.defense | number}}</td>
             </tr>
 
             <tr>
               <td>Dominance</td>
-              <td class="text-right">{{character.dominance}}</td>
+              <td class="text-right">{{character.dominance | number}}</td>
             </tr>
 
             <tr>
               <td>Might</td>
-              <td class="text-right">{{character.might}}</td>
+              <td class="text-right">{{character.might | number}}</td>
             </tr>
 
             <tr>
               <td>Precision</td>
-              <td class="text-right">{{character.precision}}</td>
+              <td class="text-right">{{character.precision | number}}</td>
             </tr>
 
             <tr>
               <td>Restoration</td>
-              <td class="text-right">{{character.restoration}}</td>
+              <td class="text-right">{{character.restoration | number}}</td>
             </tr>
 
             <tr>
               <td>Toughness</td>
-              <td class="text-right">{{character.toughness}}</td>
+              <td class="text-right">{{character.toughness | number}}</td>
             </tr>
 
             <tr>
               <td>Vitalization</td>
-              <td class="text-right">{{character.vitalization}}</td>
+              <td class="text-right">{{character.vitalization | number}}</td>
             </tr>
 
           </tbody>
@@ -158,7 +165,7 @@
     </div>
   </div>
 
-  <div class="col-sm-12 col-md-4" ng-if="character">
+  <div class="col-sm-12 col-md-4" ng-if="character.id">
     <div class="panel panel-warning">
       <div class="panel-heading">Progress</div>
       <div class="panel-body">

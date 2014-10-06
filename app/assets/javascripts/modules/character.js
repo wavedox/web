@@ -15,7 +15,7 @@
     };
 
     CharacterService.findOne($scope.params, function(character) {
-      $scope.character = character;
+      $scope.character = character || {};
     });
 
     $scope.isMyProfile = function() {
@@ -38,9 +38,9 @@
 
   function CharacterSearchCtrl($scope, $routeParams, $location, CharacterService) {
     $('body').animate({ scrollTop: 0 }, 'fast');
+
     $scope.showImages = true;
     $scope.hideOutdated = true;
-    $scope.hideMissingImages = false;
 
     $scope.params = {
       name: $location.search().keyword,
@@ -49,33 +49,30 @@
 
     $scope.toggle = function(key) {
       $scope[key] = !$scope[key];
-      if (key === 'showImages' && !$scope.showImages) $scope.hideMissingImages = false;
+      $scope.filter();
     };
 
-    $scope.hasImage = function(character) {
-      var el = $('.character-image.id-' + character.id)[0];
-      return !$scope.hideMissingImages || (el && !!el.onerror);
+    $scope.loadMore = function() {
+      if (!$scope.unloadedCharacters) return;
+      $scope.isLoadingMore = true;
+      $scope.loadedCharacters = $scope.loadedCharacters.concat($scope.unloadedCharacters.splice(0, 100));
+      $scope.filter();
+      if (_.isEmpty($scope.unloadedCharacters)) $scope.isLoadingMore = false;
     };
 
-    $scope.countCharacters = function() {
-      if ($scope.showImages) return $('.character-image:visible').size();
-      return $('.character-link').size();
+    $scope.filter = function() {
+      $scope.characters = _.filter($scope.loadedCharacters, function(c) {
+        return !$scope.hideOutdated || c.isUpToDate();
+      });
     };
 
     CharacterService.findAll($scope.params, function(characters) {
-      $scope.characters = characters;
+      $scope.characterCount = characters.length;
+      $scope.unloadedCharacters = characters;
+      $scope.loadedCharacters = [];
+      $scope.loadMore();
     });
   }
-
-  // Character Filter
-
-  wavedox.filter('characterFilter', function() {
-    return function(characters, hideOutdated) {
-      return _.filter(characters, function(c) {
-        return !hideOutdated || c.isUpToDate();
-      });
-    };
-  });
 
   // Character Model
 
@@ -104,7 +101,7 @@
     // Is outdated
 
     Character.prototype.isUpToDate = function() {
-      return this.pveCr && this.skillPoints && !this.name.match(/deleted/);
+      return _.str.toNumber(this.pveCr) > 0 && _.str.toNumber(this.skillPoints) > 0 && !this.name.match(/deleted/);
     };
 
     // Parse Character
@@ -198,7 +195,7 @@
         Census.get(path, function(response) {
           var list = response['character_list'] || [];
           var hash = _.first(list) || {};
-          if (!hash) return callback();
+          if (_.isEmpty(hash)) return callback();
 
           var league = _.getPath(hash, 'character_id_join_guild_roster.guild_id_join_guild');
           var character = Character.parse(hash, league);
@@ -222,7 +219,7 @@
 
         var path = '/character?name=*' + name + '&deleted=false'
                  + '&c:show=character_id,name,combat_rating,pvp_combat_rating,skill_points,power_type_id,world_id'
-                 + '&world_id=' + worldId + '&c:lang=en&c:case=false&c:limit=9999&c:sort=name&c:join='
+                 + '&world_id=' + worldId + '&c:lang=en&c:case=false&c:limit=99999&c:sort=name&c:join='
                  + 'guild_roster^on:character_id^to:character_id(guild^terms:world_id=' + worldId + '^show:name),'
                  + 'power_type^on:power_type_id^to:power_type_id^show:name.en';
 

@@ -2,26 +2,27 @@
 
   <div class="col-sm-4 col-md-3">
     <div class="panel panel-warning">
-      <div class="panel-heading">
-        <small ng-if="!leagues">Loading...</small>
 
-        <small ng-if="leagues">
-          {{leagues.length}}
-          league<span ng-show="leagues.length != 1">s</span>
-          found in {{params.world.toUpperCase()}}
-        </small>
+      <div class="panel-heading" ng-if="!leagues">
+        <i class="fa fa-spin fa-circle-o-notch"></i> Loading...
       </div>
+
+      <div class="panel-heading" ng-if="!!leagues">
+        {{leagues.length}}
+        league<span ng-show="leagues.length != 1">s</span>
+        found in {{params.world.toUpperCase()}}
+      </div>
+
     </div>
   </div>
 
   <div class="col-sm-4 col-md-3" ng-repeat="league in leagues">
     <div class="panel panel-success">
+
       <div class="panel-heading panel-link">
-        <a ng-href="{{league.path}}">
-          <small>{{league.name}}</small>
-        </a>
+        <a ng-href="{{league.path}}">{{league.name}}</a>
       </div>
+
     </div>
   </div>
-
 </div>

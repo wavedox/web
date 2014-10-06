@@ -2,12 +2,19 @@
   <div class="col-sm-4 col-md-3">
     <div class="panel panel-warning">
 
-      <div class="panel-heading">
-        <span ng-if="!league">Loading...</span>
-        <h1 ng-if="league">{{league.name}}</h1>
+      <div class="panel-heading" ng-if="!league">
+        <i class="fa fa-spin fa-circle-o-notch"></i> Loading...
       </div>
 
-      <div class="panel-body" ng-if="league">
+      <div class="panel-heading" ng-if="league && !league.id">
+        League not found
+      </div>
+
+      <div class="panel-heading" ng-if="league.id">
+        <h1>{{league.name}}</h1>
+      </div>
+
+      <div class="panel-body" ng-if="league.id">
         <table class="wd-table">
           <tbody>
             <tr>
@@ -22,7 +29,7 @@
 
             <tr>
               <td>Members</td>
-              <td class="text-right">{{countMembers()}}</td>
+              <td class="text-right">{{league.members.length | number}}</td>
             </tr>
 
             <tr>
@@ -55,13 +62,6 @@
                 <a href="" ng-click="toggle('hideOutdated')" ng-show="!hideOutdated"><i class="fa fa-toggle-off"></i> Hide outdated characters</a>
               </td>
             </tr>
-
-            <tr ng-class="{ disabled: !showImages }">
-              <td colspan="2">
-                <a href="" ng-click="toggle('hideMissingImages')" ng-show="hideMissingImages"><i class="fa fa-toggle-on"></i> Hide missing images</a>
-                <a href="" ng-click="toggle('hideMissingImages')" ng-show="!hideMissingImages"><i class="fa fa-toggle-off"></i> Hide missing images</a>
-              </td>
-            </tr>
           </tbody>
         </table>
 
@@ -69,15 +69,13 @@
     </div>
   </div>
 
-  <div class="col-sm-4 col-md-3" ng-repeat="member in visibleMembers = (league.members | characterFilter:hideOutdated)" ng-show="hasImage(member)">
+  <div class="col-sm-4 col-md-3" ng-repeat="member in members">
     <div class="panel panel-success">
 
         <div class="panel-heading panel-link">
           <a ng-href="{{member.path}}">
-            <small>
-              <span class="character-rank">{{member.rankDisplay}}</span>
-              {{member.name}}
-            </small>
+            <span class="character-rank">{{member.rankDisplay}}</span>
+            {{member.name}}
           </a>
         </div>
 

@@ -8,6 +8,7 @@
 
   function SearchCtrl($scope, SearchModel, SearchService) {
     $scope.searchModel = new SearchModel();
+    SearchService.searchModel = $scope.searchModel;
 
     // Placeholder
 
@@ -28,35 +29,36 @@
   wavedox.factory('SearchModel', SearchModelFactory);
 
   function SearchModelFactory(Cookie) {
-    return SearchModel;
 
     function SearchModel() {
       this.keyword = '';
       this.cardinality = Cookie.get('default_cardinality') || 'one';
       this.dataType = Cookie.get('default_data_type') || 'character';
       this.world = Cookie.get('default_world') || 'usps';
-
-      // Set
-
-      this.set = function(key, value) {
-        this[key] = value;
-        this.saveOptions();
-      }
-
-      // Save Options
-
-      this.saveOptions = function() {
-        Cookie.set('default_cardinality', this.cardinality);
-        Cookie.set('default_data_type', this.dataType);
-        Cookie.set('default_world', this.world);
-      };
-
-      // Pluralize
-
-      this.pluralize = function() {
-        return this.cardinality === 'all' ? 's' : '';
-      };
     }
+
+    // Set
+
+    SearchModel.prototype.set = function(key, value) {
+      this[key] = value;
+      this.saveOptions();
+    }
+
+    // Save Options
+
+    SearchModel.prototype.saveOptions = function() {
+      Cookie.set('default_cardinality', this.cardinality);
+      Cookie.set('default_data_type', this.dataType);
+      Cookie.set('default_world', this.world);
+    };
+
+    // Pluralize
+
+    SearchModel.prototype.pluralize = function() {
+      return this.cardinality === 'all' ? 's' : '';
+    };
+
+    return SearchModel;
   }
 
   // Search Service

@@ -54,7 +54,7 @@
         var url = this.buildUrlFor(path, 'get');
 
         $http.jsonp(url, { cache: true })
-          .success(this.successHandler(callback, this.errorHandler))
+          .success(this.successHandler(_.now(), callback, this.errorHandler))
           .error(this.errorHandler);
       },
 
@@ -64,15 +64,17 @@
         var url = this.buildUrlFor(path, 'count');
 
         $http.jsonp(url, { cache: true })
-          .success(this.successHandler(callback, this.errorHandler))
+          .success(this.successHandler(_.now(), callback, this.errorHandler))
           .error(this.errorHandler);
       },
 
       // Success handler
 
-      successHandler: function(callback, errorHandler) {
+      successHandler: function(start, callback, errorHandler) {
 
         return function(data) {
+          var time = ((_.now() - start) / 1000).toFixed(3);
+          if (Env.isDev()) console.info('Census', 'Completed in ' + time + 's');
           if (_.has(data, 'error') || _.has(data, 'errorCode')) return errorHandler(data);
           callback.apply(this, arguments);
         };

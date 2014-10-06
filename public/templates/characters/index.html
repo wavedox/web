@@ -1,19 +1,19 @@
-<div class="row" ng-controller="CharacterSearchCtrl">
+<div class="row" ng-controller="CharacterSearchCtrl" wd-infinite-scroll="loadMore()">
 
   <div class="col-sm-4 col-md-3">
     <div class="panel panel-warning">
 
-      <div class="panel-heading">
-        <small ng-if="!characters">Loading...</small>
-
-        <small ng-if="characters">
-          {{countCharacters()}}
-          character<span ng-show="visibleCharacters.length != 1">s</span>
-          found in {{params.world.toUpperCase()}}
-        </small>
+      <div class="panel-heading" ng-if="!characters">
+        <i class="fa fa-spin fa-circle-o-notch"></i> Loading...
       </div>
 
-      <div class="panel-body" ng-if="characters">
+      <div class="panel-heading" ng-if="!!characters">
+        {{characterCount | number}}
+        character<span ng-show="visibleCharacters.length != 1">s</span>
+        found in {{params.world.toUpperCase()}}
+      </div>
+
+      <div class="panel-body" ng-if="characterCount > 0">
         <table class="wd-table">
           <tbody class="interactions">
             <tr>
@@ -29,13 +29,6 @@
                 <a href="" ng-click="toggle('hideOutdated')" ng-show="!hideOutdated"><i class="fa fa-toggle-off"></i> Hide outdated characters</a>
               </td>
             </tr>
-
-            <tr ng-class="{ disabled: !showImages }">
-              <td>
-                <a href="" ng-click="toggle('hideMissingImages')" ng-show="hideMissingImages"><i class="fa fa-toggle-on"></i> Hide missing images</a>
-                <a href="" ng-click="toggle('hideMissingImages')" ng-show="!hideMissingImages"><i class="fa fa-toggle-off"></i> Hide missing images</a>
-              </td>
-            </tr>
           </tbody>
         </table>
       </div>
@@ -43,12 +36,12 @@
     </div>
   </div>
 
-  <div class="col-sm-4 col-md-3" ng-repeat="character in visibleCharacters = (characters | characterFilter:hideOutdated)" ng-show="hasImage(character)">
+  <div class="col-sm-4 col-md-3" ng-repeat="character in characters">
     <div class="panel panel-success">
 
         <div class="panel-heading panel-link">
           <a ng-href="{{character.path}}">
-            <small><i class="fa fa-chevron-circle-right"></i> {{character.name}}</small>
+            <i class="fa fa-chevron-circle-right"></i> {{character.name}}
           </a>
         </div>
 
@@ -96,4 +89,13 @@
       </div>
     </div>
   </div>
+
+  <div class="col-sm-4 col-md-3" ng-show="isLoadingMore">
+    <div class="panel panel-success">
+      <div class="panel-heading">
+        <i class="fa fa-spin fa-circle-o-notch"></i> Loading...
+      </div>
+    </div>
+  </div>
+
 </div>

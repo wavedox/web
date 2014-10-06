@@ -1,5 +1,5 @@
 (function() {
-  var wavedox = angular.module('wavedox', ['ngRoute', 'camelizeHttp']);
+  var wavedox = angular.module('wavedox', ['ngRoute']);
 
   WavedoxConfig.$inject = ['$locationProvider', '$routeProvider'];
   wavedox.config(WavedoxConfig);
