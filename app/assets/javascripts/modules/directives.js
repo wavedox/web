@@ -19,8 +19,22 @@
             });
           }
 
-        }, 500);
+        }, 100);
 
+      });
+    };
+  });
+
+  // Close nav on click
+
+  wavedox.directive('wdCloseNavOnClick', function() {
+    return function (scope, element, attrs) {
+      element.on('click', 'a', function() {
+        var toggle = element.find('.navbar-toggle');
+        var collapse = element.find('.navbar-collapse');
+        if (toggle.is(':visible') && collapse.is(':visible')) {
+          element.find('.navbar-toggle').click();
+        }
       });
     };
   });

@@ -74,7 +74,7 @@
 
         return function(data) {
           var time = ((_.now() - start) / 1000).toFixed(3);
-          if (Env.isDev()) console.info('Census', 'Completed in ' + time + 's');
+          if (Env.isDev()) console.info('Census completed in ' + time + 's');
           if (_.has(data, 'error') || _.has(data, 'errorCode')) return errorHandler(data);
           callback.apply(this, arguments);
         };

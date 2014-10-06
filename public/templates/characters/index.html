@@ -8,25 +8,18 @@
       </div>
 
       <div class="panel-heading" ng-if="!!characters">
-        {{characterCount | number}}
-        character<span ng-show="visibleCharacters.length != 1">s</span>
+        {{totalCount | number}}
+        character<span ng-show="characters.length != 1">s</span>
         found in {{params.world.toUpperCase()}}
       </div>
 
-      <div class="panel-body" ng-if="characterCount > 0">
+      <div class="panel-body" ng-if="totalCount > 0">
         <table class="wd-table">
           <tbody class="interactions">
             <tr>
               <td>
                 <a href="" ng-click="toggle('showImages')" ng-show="showImages"><i class="fa fa-toggle-on"></i> Show character images</a>
                 <a href="" ng-click="toggle('showImages')" ng-show="!showImages"><i class="fa fa-toggle-off"></i> Show character images</a>
-              </td>
-            </tr>
-
-            <tr>
-              <td>
-                <a href="" ng-click="toggle('hideOutdated')" ng-show="hideOutdated"><i class="fa fa-toggle-on"></i> Hide outdated characters</a>
-                <a href="" ng-click="toggle('hideOutdated')" ng-show="!hideOutdated"><i class="fa fa-toggle-off"></i> Hide outdated characters</a>
               </td>
             </tr>
           </tbody>
@@ -52,8 +45,8 @@
         </a>
 
         <table class="wd-table character-highlights">
-          <tbody class="interactions">
 
+          <tbody class="interactions">
             <tr ng-class="{ disabled: !character.league }">
               <td colspan="2">
                 <a ng-href="{{character.leaguePath}}" ng-class="{ invisible: !character.league }">

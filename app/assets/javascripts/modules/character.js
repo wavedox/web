@@ -40,7 +40,6 @@
     $('body').animate({ scrollTop: 0 }, 'fast');
 
     $scope.showImages = true;
-    $scope.hideOutdated = true;
 
     $scope.params = {
       name: $location.search().keyword,
@@ -49,27 +48,19 @@
 
     $scope.toggle = function(key) {
       $scope[key] = !$scope[key];
-      $scope.filter();
     };
 
     $scope.loadMore = function() {
-      if (!$scope.unloadedCharacters) return;
+      if (!$scope.allCharacters) return;
       $scope.isLoadingMore = true;
-      $scope.loadedCharacters = $scope.loadedCharacters.concat($scope.unloadedCharacters.splice(0, 100));
-      $scope.filter();
-      if (_.isEmpty($scope.unloadedCharacters)) $scope.isLoadingMore = false;
-    };
-
-    $scope.filter = function() {
-      $scope.characters = _.filter($scope.loadedCharacters, function(c) {
-        return !$scope.hideOutdated || c.isUpToDate();
-      });
+      $scope.characters = $scope.characters.concat($scope.allCharacters.splice(0, 100));
+      if (_.isEmpty($scope.allCharacters)) $scope.isLoadingMore = false;
     };
 
     CharacterService.findAll($scope.params, function(characters) {
-      $scope.characterCount = characters.length;
-      $scope.unloadedCharacters = characters;
-      $scope.loadedCharacters = [];
+      $scope.totalCount = characters.length;
+      $scope.allCharacters = characters;
+      $scope.characters = [];
       $scope.loadMore();
     });
   }
@@ -84,7 +75,7 @@
     function Character() {
     }
 
-    // Has role
+    // Has roles
 
     Character.prototype.hasControllerRole = function() {
       return _.include(['Gadgets', 'Light', 'Mental', 'Munitions', 'Quantum'], this.power);
@@ -214,13 +205,18 @@
       // Find all
 
       findAll: function(params, callback) {
-        var name = params.name;
         var worldId = Census.worlds[params.world];
 
-        var path = '/character?name=*' + name + '&deleted=false'
-                 + '&c:show=character_id,name,combat_rating,pvp_combat_rating,skill_points,power_type_id,world_id'
-                 + '&world_id=' + worldId + '&c:lang=en&c:case=false&c:limit=99999&c:sort=name&c:join='
-                 + 'guild_roster^on:character_id^to:character_id(guild^terms:world_id=' + worldId + '^show:name),'
+        var path = '/character?name=*' + params.name
+                 + '&world_id=' + worldId
+                 + '&deleted=false'
+                 + '&c:lang=en'
+                 + '&c:case=false'
+                 + '&c:limit=100000'
+                 + '&combat_rating=%3E1'
+                 + '&skill_points=%3E1'
+                 + '&c:sort=skill_points:-1,combat_rating:-1,pvp_combat_rating:-1,name'
+                 + '&c:join=guild_roster^on:character_id^to:character_id(guild^terms:world_id=' + worldId + '^show:name),'
                  + 'power_type^on:power_type_id^to:power_type_id^show:name.en';
 
         Census.get(path, function(response) {
