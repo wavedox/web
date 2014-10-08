@@ -46,6 +46,11 @@
           </ul>
         </div>
 
+        <div class="pull-right">
+          <a href="" ng-click="toggle('showImages')" ng-show="showImages"><i class="fa fa-toggle-on"></i> images</a>
+          <a href="" ng-click="toggle('showImages')" ng-show="!showImages"><i class="fa fa-toggle-off"></i> images</a>
+        </div>
+
         <hr>
 
         <h2 ng-if="leaderboard.characters.length === 0">
@@ -59,7 +64,7 @@
 
               <td width="1">
                 <a ng-href="{{character.path}}">
-                  <img class="leaderboards-thumbnail" ng-src="{{character.image}}"
+                  <img class="leaderboards-thumbnail" ng-src="{{character.image}}" ng-if="showImages"
                     onerror="this.onerror = null; this.src='/assets/placeholder.gif'; return false">
                 </a>
               </td>

@@ -7,6 +7,12 @@
   wavedox.controller('LeaderboardCtrl', LeaderboardCtrl);
 
   function LeaderboardCtrl($scope, Leaderboard) {
+    $scope.showImages = true;
+
+    $scope.toggle = function(key) {
+      $scope[key] = !$scope[key];
+    };
+
     $scope.leaderboards = [
       new Leaderboard(0, 'usps').load(),
       new Leaderboard(1, 'uspc').load()

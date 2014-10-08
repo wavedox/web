@@ -40,7 +40,7 @@
 
       <div class="panel-body">
         <a class="character-link" ng-href="{{character.path}}">
-          <img class="character-image id-{{character.id}}" ng-src="{{character.image}}" ng-show="showImages"
+          <img class="character-image id-{{character.id}}" ng-src="{{character.image}}" ng-if="showImages"
                onerror="this.onerror = null; this.src='/assets/placeholder.gif'">
         </a>
 
