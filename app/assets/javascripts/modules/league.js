@@ -109,6 +109,8 @@
     // Parse League
 
     League.parse = function(soe) {
+      if (!soe) return;
+
       var l = new League();
       l.id = soe.guild_id;
       l.name = soe.name;
@@ -157,12 +159,14 @@
 
         // Fetch league
 
+
         var path = '/guild?name=' + name
                  + '&world_id=' + worldId
                  + '&c:lang=en'
                  + '&c:case=false'
                  + '&c:show=guild_id,name,world_id';
 
+        console.log(params.world, worldId, path);
         Census.get(path, function(response) {
           var list = response['guild_list'] || [];
           var hash = _.first(list) || {};

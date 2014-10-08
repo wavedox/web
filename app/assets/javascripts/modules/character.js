@@ -97,14 +97,14 @@
 
     // Parse Character
 
-    Character.parse = function(soe, soeLeague) {
+    Character.parse = function(soe, league) {
       var c = new Character();
 
       // Overview
 
       c.id = soe.character_id;
       c.name = soe.name;
-      c.league = _.getPath(soeLeague, 'name');
+      c.league = league;
       c.faction = _.getPath(soe, 'alignment_id_join_alignment.name.en');
       c.origin = _.getPath(soe, 'origin_id_join_origin.name.en');
 
@@ -142,7 +142,6 @@
       // Paths
 
       c.image = 'http://census.soe.com/files/dcuo/images/character/paperdoll/' + c.id;
-      if (c.league) c.leaguePath = '/worlds/' + c.world + '/leagues/' + c.league.toLowerCase();
       c.path = '/worlds/' + c.world + '/characters/' + c.name.toLowerCase();
       c.suggestedFeatsPath = c.path + '/suggested-feats';
 
@@ -154,10 +153,10 @@
 
   // Character Service
 
-  CharacterService.$inject = ['Census', 'Character'];
+  CharacterService.$inject = ['Census', 'Character', 'League'];
   wavedox.service('CharacterService', CharacterService);
 
-  function CharacterService(Census, Character) {
+  function CharacterService(Census, Character, League) {
     return {
 
       // Find one
@@ -189,7 +188,8 @@
           var hash = _.first(list) || {};
           if (_.isEmpty(hash)) return callback();
 
-          var league = _.getPath(hash, 'character_id_join_guild_roster.guild_id_join_guild');
+          var leagueHash = _.getPath(hash, 'character_id_join_guild_roster.guild_id_join_guild');
+          var league = League.parse(_.extend(leagueHash, { world_id: worldId }));
           var character = Character.parse(hash, league);
 
           // Fetch completed feat count
@@ -224,8 +224,10 @@
           var list = response['character_list'] || [];
 
           var characters = _.map(list, function(hash) {
-            var league = _.getPath(hash, 'character_id_join_guild_roster.guild_id_join_guild');
-            return Character.parse(_.extend(hash, { world_id: worldId }), league);
+            var base = { world_id: worldId };
+            var leagueHash = _.getPath(hash, 'character_id_join_guild_roster.guild_id_join_guild');
+            var league = League.parse(_.extend(leagueHash, base));
+            return Character.parse(_.extend(hash, base), league);
           });
 
           callback(characters);

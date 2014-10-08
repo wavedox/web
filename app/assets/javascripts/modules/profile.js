@@ -25,7 +25,7 @@
       saveProfile: function(character) {
         ga('send', 'event', 'Profile', 'Save', character.path);
         Cookie.set('my_character', character.path);
-        if (character.league) Cookie.set('my_league', character.leaguePath);
+        if (character.league) Cookie.set('my_league', character.league.path);
         Alert.success('Your profile has been saved.');
       },
 

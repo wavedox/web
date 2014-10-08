@@ -1,0 +1,111 @@
+<div class="row" id="leaderboards" ng-controller="LeaderboardCtrl" ng-cloak>
+  <div class="col-md-6 leaderboard-{{leaderboard.index}}" ng-repeat="leaderboard in leaderboards">
+    <div class="panel panel-danger">
+
+      <div class="panel-heading">
+        <h2>Top {{leaderboard.statsLabel()}} in {{leaderboard.world.toUpperCase()}}</h2>
+      </div>
+
+      <div class="panel-body">
+
+        <small>Top</small>
+
+        <div class="btn-group">
+          <button class="btn btn-xs btn-default dropdown-toggle" type="button" data-toggle="dropdown">
+            {{leaderboard.statsLabel()}} <i class="fa fa-chevron-down"></i>
+          </button>
+
+          <ul class="dropdown-menu" role="menu">
+            <li><a href="" ng-click="leaderboard.set('stats', 'skill_points')">skill points</a></li>
+            <li><a href="" ng-click="leaderboard.set('stats', 'combat_rating')">PvE CR</a></li>
+            <li><a href="" ng-click="leaderboard.set('stats', 'pvp_combat_rating')">PvP CR</a></li>
+            <li><a href="" ng-click="leaderboard.set('stats', 'max_health')">health</a></li>
+            <li><a href="" ng-click="leaderboard.set('stats', 'max_power')">power</a></li>
+            <li><a href="" ng-click="leaderboard.set('stats', 'defense')">defense</a></li>
+            <li><a href="" ng-click="leaderboard.set('stats', 'dominance')">dominance</a></li>
+            <li><a href="" ng-click="leaderboard.set('stats', 'might')">might</a></li>
+            <li><a href="" ng-click="leaderboard.set('stats', 'precision')">precision</a></li>
+            <li><a href="" ng-click="leaderboard.set('stats', 'restoration')">restoration</a></li>
+            <li><a href="" ng-click="leaderboard.set('stats', 'toughness')">toughness</a></li>
+            <li><a href="" ng-click="leaderboard.set('stats', 'vitalization')">vitalization</a></li>
+          </ul>
+        </div>
+
+        <small>in</small>
+
+        <div class="btn-group">
+          <button class="btn btn-xs btn-default dropdown-toggle" type="button" data-toggle="dropdown">
+            {{leaderboard.world.toUpperCase()}} <i class="fa fa-chevron-down"></i>
+          </button>
+
+          <ul class="dropdown-menu dropdown-menu-right" role="menu">
+            <li><a href="" ng-click="leaderboard.set('world', 'usps')">USPS</a></li>
+            <li><a href="" ng-click="leaderboard.set('world', 'uspc')">USPC</a></li>
+            <li><a href="" ng-click="leaderboard.set('world', 'eups')">EUPS</a></li>
+            <li><a href="" ng-click="leaderboard.set('world', 'eupc')">EUPC</a></li>
+          </ul>
+        </div>
+
+        <hr>
+
+        <h2 ng-if="leaderboard.characters.length === 0">
+          <i class="fa fa-spin fa-circle-o-notch"></i> Loading...
+        </h2>
+
+        <table class="wd-table">
+          <tbody>
+
+            <tr ng-repeat="character in leaderboard.characters">
+
+              <td width="1">
+                <a ng-href="{{character.path}}">
+                  <img class="leaderboards-thumbnail" ng-src="{{character.image}}"
+                    onerror="this.onerror = null; this.src='/assets/placeholder.gif'; return false">
+                </a>
+              </td>
+
+              <td>
+                <small class="text-muted"># {{$index + 1}}</small>
+
+                <h2>
+                  <a ng-href="{{character.path}}">
+                    <i class="fa fa-chevron-circle-right"></i> {{character.name}}
+                  </a>
+                </h2>
+
+                <small>
+                  <a class="text-muted" ng-href="{{character.league.path}}">
+                    <i class="fa fa-chevron-circle-right"></i> {{character.league.name}}
+                  </a>
+                </small>
+              </td>
+
+              <td>
+                <h2 class="text-right">
+                  {{character[leaderboard.statsCamel()] | number}}
+                  <small class="text-muted block">{{leaderboard.statsLabel()}}</small>
+                </h2>
+
+                <table class="summary">
+                  <tr>
+                    <td><h2>{{character.pveCr}}</h2></td>
+                    <td><h2>{{character.pvpCr}}</h2></td>
+                    <td><h2>{{character.skillPoints}}</h2></td>
+                  </tr>
+
+                  <tr>
+                    <td><small class="text-muted">PvE</small></td>
+                    <td><small class="text-muted">PvP</small></td>
+                    <td><small class="text-muted">SP</small></td>
+                  </tr>
+                </table>
+
+              </td>
+            </tr>
+          </tbody>
+        </table>
+
+      </div>
+    </div>
+  </div>
+</div>

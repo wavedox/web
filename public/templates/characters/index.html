@@ -49,8 +49,8 @@
           <tbody class="interactions">
             <tr ng-class="{ disabled: !character.league }">
               <td colspan="2">
-                <a ng-href="{{character.leaguePath}}" ng-class="{ invisible: !character.league }">
-                  <small><i class="fa fa-chevron-circle-right"></i> {{character.league}}</small>
+                <a ng-href="{{character.league.path}}" ng-class="{ invisible: !character.league }">
+                  <small><i class="fa fa-chevron-circle-right"></i> {{character.league.name}}</small>
                 </a>
               </td>
             </tr>
