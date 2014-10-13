@@ -164,14 +164,19 @@
       // Find one
 
       findOne: function(params, callback) {
-        //var id = ???
         var name = params.name;
         var worldId = Census.worlds[params.world];
+        var query;
+
+        if (name.match(/^id:/)) {
+          query = 'character_id=' + _.last(name.split('id:'));
+        } else {
+          query = 'name=' + name + '&world_id=' + worldId;
+        }
 
         // Fetch character
 
-                 // + '?character_id=' + id
-        var path = '/character?name=' + name
+        var path = '/character?' + query
                  + '&world_id=' + worldId // not id
                  + '&c:lang=en'
                  + '&c:case=false'
