@@ -19,7 +19,8 @@
 
       <ul class="nav navbar-nav">
         <li><a href="/leaderboards">Leaderboards</a></li>
-        <li><a href="/suggested-feats">Suggested Feats</a></li>
+        <li><a ng-if="hasProfile('character')" ng-href="{{profileUrl('character')}}/suggested-feats">Suggested Feats</a></li>
+        <li><a ng-if="!hasProfile('character')" href="/">Suggested Feats</a></li>
 
         <li><a class="visible-xs-block" ng-show="hasProfile('character')" ng-href="{{profileUrl('character')}}">My Character</a></li>
         <li><a class="visible-xs-block" ng-show="hasProfile('league')" ng-href="{{profileUrl('league')}}">My League</a></li>
