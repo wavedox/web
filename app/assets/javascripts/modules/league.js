@@ -117,7 +117,7 @@
       l.id = soe.guild_id;
       l.name = soe.name;
       l.world = Census.worlds.reverse[_.str.toNumber(soe.world_id)];
-      l.path = '/worlds/' + l.world + '/leagues/' + l.name.toLowerCase();
+      l.path = encodeURI('/worlds/' + l.world + '/leagues/' + l.name.toLowerCase());
       return l;
     };
 
