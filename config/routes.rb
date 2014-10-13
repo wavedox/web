@@ -2,11 +2,6 @@ Rails.application.routes.draw do
   root 'static#index'
   get 'feat-completed-count' => 'feats#completed_count'
   get 'ping' => 'static#ping'
-
-  constraints subdomain: 'www' do
-    get ':path', to: redirect(subdomain: nil, path: '/%{path}'), any: /.*/
-  end
-
   get '*all' => 'static#index'
 
   # The priority is based upon order of creation: first created -> highest priority.
