@@ -1,0 +1,114 @@
+#suggested-feats
+  .feat-description
+    min-height: 60px
+    margin: 0 0 15px
+
+  .panel-body
+    .filter
+      display: inline-block
+      margin-right: 20px
+      white-space: nowrap
+
+  .label
+    background: $gray-lighter
+    cursor: default
+
+    &.label-default
+      color: $gray
+
+    &.label-danger
+      color: $brand-danger
+
+  .category-path
+    margin-bottom: 10px
+
+    .category-path-item:not(:first-child):before
+      color: $gray-lighter
+      content: "\f054"
+      font-family: 'FontAwesome'
+      font-size: 80%
+      font-weight: bold
+      margin-left: 5px
+
+  .btn-default
+    color: $gray
+
+  .requires-dlc
+    margin-left: 10px
+
+  .stats
+    display: block
+    margin-top: 10px
+
+    strong
+      font-size: 90%
+
+  .video-container
+    border: 7px solid lighten($gray, 5%)
+    height: 0
+    margin-bottom: 10px
+    overflow: hidden
+    padding-bottom: 56.25%
+    padding-top: 30px
+    position: relative
+
+    &:last-child
+      margin-bottom: 0
+
+    .not-found
+      margin-top: 30%
+      text-align: center
+
+  .video-container iframe, .video-container object, .video-container embed, .video-container .not-found
+    border: none
+    position: absolute
+    top: 0
+    left: 0
+    width: 100%
+    height: 100%
+
+  .youtube-title
+    margin-top: 10px
+
+  .video-pagination a
+    background: rgba(0, 0, 0, 0.1)
+    border-radius: 2px
+    display: inline-block
+    padding: 3px
+
+@media (max-width: $screen-md-max)
+  #suggested-feats
+    .feat-description
+      font-size: 90%
+
+@media (max-width: $screen-sm-max)
+  #suggested-feats
+    .feat-description
+      min-height: 10px
+
+@media (max-width: $screen-xs-max)
+  #suggested-feats
+    .panel-body
+      padding-top: 15px
+
+      .filter
+        margin-bottom: 10px
+
+    .character-title
+      display: block
+
+    .requires-dlc
+      display: block
+      margin: 10px 0 0
+
+    .video-container
+      border: 5px solid lighten($gray, 5%)
+
+    .video-pagination
+      margin: 12px 0 10px
+
+    .btn-default
+      margin-bottom: 10px
+
+    .youtube-title
+      margin-top: 10px

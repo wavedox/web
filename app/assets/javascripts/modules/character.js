@@ -8,6 +8,7 @@
 
   function CharacterCtrl($scope, $routeParams, CharacterService, ProfileService) {
     $('body').animate({ scrollTop: 0 }, 'fast');
+    ga('send', 'pageview');
 
     $scope.params = {
       name: $routeParams.name,
@@ -38,6 +39,7 @@
 
   function CharacterSearchCtrl($scope, $routeParams, $location, CharacterService) {
     $('body').animate({ scrollTop: 0 }, 'fast');
+    ga('send', 'pageview');
 
     $scope.showImages = true;
 

@@ -1,0 +1,150 @@
+<div class="row" id="suggested-feats" ng-controller="SuggestedFeatsCtrl" ng-cloak>
+
+  <div class="col-md-12">
+    <div class="panel panel-warning">
+      <div class="panel-heading">
+
+        <h2 ng-if="suggestedFeats">
+          <span style="opacity: .7">Suggested Feats for</span>
+          <span class="character-title">
+            {{character.name}}
+            <span style="opacity: .7">({{countSuggestedFeats()}})</span>
+          </span>
+        </h2>
+
+        <h2 ng-if="!suggestedFeats"><i class="fa fa-spin fa-circle-o-notch"></i> Loading...</h2>
+      </div>
+
+      <div class="panel-body" ng-show="suggestedFeats">
+
+        <span class="filter">
+          <a href="" ng-click="toggle('showBases')" ng-show="showBases"><i class="fa fa-toggle-on"></i> Bases</a>
+          <a href="" ng-click="toggle('showBases')" ng-show="!showBases"><i class="fa fa-toggle-off"></i> Bases</a>
+        </span>
+
+        <span class="filter">
+          <a href="" ng-click="toggle('showCollectible')" ng-show="showCollectible"><i class="fa fa-toggle-on"></i> Collectibles</a>
+          <a href="" ng-click="toggle('showCollectible')" ng-show="!showCollectible"><i class="fa fa-toggle-off"></i> Collectibles</a>
+        </span>
+
+        <span class="filter">
+          <a href="" ng-click="toggle('showDLC')" ng-show="showDLC"><i class="fa fa-toggle-on"></i> DLC</a>
+          <a href="" ng-click="toggle('showDLC')" ng-show="!showDLC"><i class="fa fa-toggle-off"></i> DLC</a>
+        </span>
+
+        <span class="filter">
+          <a href="" ng-click="toggle('showPvP')" ng-show="showPvP"><i class="fa fa-toggle-on"></i> PvP</a>
+          <a href="" ng-click="toggle('showPvP')" ng-show="!showPvP"><i class="fa fa-toggle-off"></i> PvP</a>
+        </span>
+
+        <span class="filter">
+          <a href="" ng-click="toggle('showRace')" ng-show="showRace"><i class="fa fa-toggle-on"></i> Races</a>
+          <a href="" ng-click="toggle('showRace')" ng-show="!showRace"><i class="fa fa-toggle-off"></i> Races</a>
+        </span>
+
+        <span class="filter">
+          <a href="" ng-click="toggle('showRD')" ng-show="showRD"><i class="fa fa-toggle-on"></i> R&amp;D</a>
+          <a href="" ng-click="toggle('showRD')" ng-show="!showRD"><i class="fa fa-toggle-off"></i> R&amp;D</a>
+        </span>
+
+        <span class="filter">
+          <a href="" ng-click="toggle('showSeasonal')" ng-show="showSeasonal"><i class="fa fa-toggle-on"></i> Seasonals</a>
+          <a href="" ng-click="toggle('showSeasonal')" ng-show="!showSeasonal"><i class="fa fa-toggle-off"></i> Seasonals</a>
+        </span>
+
+        <span class="filter">
+          <a href="" ng-click="toggle('showStyle')" ng-show="showStyle"><i class="fa fa-toggle-on"></i> Styles</a>
+          <a href="" ng-click="toggle('showStyle')" ng-show="!showStyle"><i class="fa fa-toggle-off"></i> Styles</a>
+        </span>
+
+      </div>
+    </div>
+  </div>
+
+  <div class="feat col-md-6" ng-repeat="feat in suggestedFeats" ng-show="suggestedFeats" ng-if="isVisible(feat)">
+    <div class="panel panel-success">
+
+      <div class="panel-heading panel-link">
+        <a href="" ng-click="lookup(feat); track('Suggested Feat', expandCollapse(feat), expandCollapseLabel(feat))">
+          <i class="fa fa-chevron-circle-right" ng-if="!feat.hasLookup"></i>
+          <i class="fa fa-chevron-circle-down" ng-if="feat.hasLookup"></i>
+          {{feat.name}}
+
+          <div class="pull-right">
+            <h2>{{feat.potential}}%</h2>
+          </div>
+        </a>
+      </div>
+
+      <div class="panel-body">
+
+        <div class="feat-description">
+          <span>{{feat.description}}</span>
+        </div>
+
+        <button class="btn btn-default" ng-click="lookup(feat)" ng-hide="feat.hasLookup">
+          <i class="fa fa-search"></i> Feat Insights
+        </button>
+
+        <div ng-show="feat.hasLookup">
+
+          <div class="category-path">
+            <span class="category-path-item" ng-repeat="featCategory in feat.categoryPath">
+              <span class="label label-default">
+                {{featCategory.name}}
+              </span>
+            </span>
+
+            <span class="requires-dlc">
+              <span class="label label-danger" ng-if="feat.dlc">Requires DLC: {{feat.dlcName}}</span>
+            </span>
+          </div>
+
+          <small class="stats">
+            <p>
+              <strong>{{feat.completedCount | number}}</strong>
+              <span class="text-muted">players have completed this feat, which is about</span>
+              <strong>{{feat.playersCompleted}}%</strong>
+              <span class="text-muted">of the</span>
+              <strong>{{playerBase | number}}</strong>
+              <span class="text-muted">player base.</span>
+            </p>
+          </small>
+
+          <h2 ng-if="!feat.videos">
+            <i class="fa fa-spin fa-circle-o-notch"></i> Loading...
+          </h2>
+
+          <h2 class="youtube-title" ng-if="!!feat.videos">
+            YouTube search results
+            <small class="block text-muted">Keywords: DCUO Feat {{feat.name}}</small>
+          </h2>
+
+          <div class="video-container" ng-if="feat.videos && feat.videos.length == 0">
+            <div class="not-found">
+              No videos were found for this feat.
+            </div>
+          </div>
+
+          <div class="video-container" ng-if="feat.videoIndex == $index" ng-repeat="video in feat.videos" wd-youtube="video.id"></div>
+
+          <div class="video-pagination clearfix">
+            <div class="pull-left">
+              <a href="" ng-click="feat.prevVideo()" wd-visible="feat.videoIndex > 0">
+                <i class="fa fa-chevron-left"></i> Prev
+              </a>
+            </div>
+
+            <div class="pull-right">
+              <a href="" ng-click="feat.nextVideo()" wd-visible="feat.videoIndex < feat.videos.length - 1">
+                Next <i class="fa fa-chevron-right"></i>
+              </a>
+            </div>
+          </div>
+
+        </div>
+
+      </div>
+    </div>
+  </div>
+</div>

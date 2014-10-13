@@ -1,21 +1,35 @@
-<div class="row">
+<div class="row" ng-controller="WelcomeCtrl">
   <div class="col-md-4">
     <div class="panel panel-warning">
-      <div class="panel-heading"><h2>Meet wavedox</h2></div>
+
+      <div class="panel-heading">
+        <h2>
+          <i class="fa fa-info-circle"></i> Meet wavedox
+        </h2>
+      </div>
+
       <div class="panel-body">
 
         <p>
-          Wavedox <span class="muted">(spelled in lower case, "wavedox")</span> is a free resource for
-          DC Universe Online (DCUO) players who are looking to make progress with their characters, leagues and
-          groups, based on open data from Sony Online Entertainment (SOE)
-          <a href="//census.soe.com">Census</a>.
+          Wavedox (spelled in lower case, "wavedox") is a free resource for
+          <a href="//dcuniverseonline.com" target="_blank">DC Universe Online (DCUO)</a> players who are looking
+          to make progress with their characters, leagues and groups, based on open data from
+          <a href="//census.soe.com" target="_blank">Sony Online Entertainment (SOE) Census</a>.
         </p>
 
         <p class="nopad">
-          It was known as <span class="muted">DCUO Social Graph</span>, and hosted under
-          <span class="muted">http://dcuo.herokuapp.com</span>. The new name is inspired
-          by the awesome raid Paradox Wave.
+          It was known as DCUO Social Graph, and hosted under http://dcuo.herokuapp.com.
+          The new name is inspired by the awesome raid
+          <a href="//dcuniverseonline.wikia.com/wiki/Paradox_Wave" target="_blank">Paradox Wave</a>.
+          Likewise, colors are inspired by
+          <a href="//dcuniverseonline.wikia.com/wiki/Exobyte" target="_blank">exobytes</a>.
         </p>
+
+        <p>Have questions or feedback?</p>
+
+        <a class="btn btn-default" href="//twitter.com/wavedox">
+          <i class="fa fa-twitter"></i> Send a Tweet
+        </a>
 
       </div>
     </div>
@@ -23,15 +37,88 @@
 
   <div class="col-md-4">
     <div class="panel panel-success">
-      <div class="panel-heading"><h2>Suggested Feats</h2></div>
-      <div class="panel-body">Body</div>
+
+      <div class="panel-heading" ng-class="{ 'panel-link': hasProfile('character') }">
+        <a ng-if="hasProfile('character')" ng-href="{{profileUrl('character')}}/suggested-feats">
+          <h2>
+            <i class="fa fa-line-chart"></i> Suggested Feats
+          </h2>
+        </a>
+
+        <h2 ng-if="!hasProfile('character')">
+          <i class="fa fa-line-chart"></i> Suggested Feats
+        </h2>
+      </div>
+
+      <div class="panel-body">
+
+        <p>
+          Suggested Feats is the personal dashboard of every DCUO player who's working on feats, from
+          level one exploration feats to the newest DLC. It predicts and suggests which feats
+          you should do next. Suggestions are calculated based on overall completeness.
+        </p>
+
+        <p class="nopad">
+          The more a feat has been completed by others, the more Potential (%) you have to
+          complete that feat. Suggested Feats are sorted by Potential (%), showing you the ones
+          you're more likely to complete first.
+        </p>
+
+        <div ng-if="hasProfile('character')">
+          <p>Need help getting feats done?</p>
+
+          <a class="btn btn-default" ng-href="{{profileUrl('character')}}/suggested-feats">
+            <i class="fa fa-line-chart"></i> Check it out
+          </a>
+        </div>
+
+        <div ng-if="!hasProfile('character')">
+          <p>Where are my Suggested Feats?</p>
+
+          <small>
+            <span class="text-muted">First go to your character profile page and then click on</span><br>
+            Save as My Character
+            <span class="text-muted">or</span>
+            See Suggested Feats.
+          </small>
+        </div>
+
+      </div>
     </div>
   </div>
 
   <div class="col-md-4">
     <div class="panel panel-danger">
-      <div class="panel-heading"><h2>Leaderboards</h2></div>
-      <div class="panel-body">Body</div>
+
+      <div class="panel-heading panel-link">
+        <a href="/leaderboards">
+          <h2>
+            <i class="fa fa-trophy"></i> Leaderboards
+          </h2>
+        </a>
+      </div>
+
+      <div class="panel-body">
+
+        <p>
+          Leaderboards are available for current/max stats only, meaning it includes additional
+          amounts to base stats, e.g. trinkets, colas, buffs. A lot of people have asked to rank
+          only on base stats, but unfortunately Census doesn't provide base stats yet.
+        </p>
+
+        <p class="nopad">
+          I'll soon put together everyone's feedback on base stats and make sure it's addressed
+          to the Census team. For now enjoy the dynamic Leaderboards, or wait until
+          base stats are available.
+        </p>
+
+        <p>Have you made it to the top yet?</p>
+
+        <a class="btn btn-default" href="/leaderboards">
+          <i class="fa fa-trophy"></i> Check it out
+        </a>
+
+      </div>
     </div>
   </div>
 </div>

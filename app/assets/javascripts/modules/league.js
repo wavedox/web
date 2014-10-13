@@ -8,6 +8,7 @@
 
   function LeagueCtrl($scope, $routeParams, LeagueService) {
     $('body').animate({ scrollTop: 0 }, 'fast');
+    ga('send', 'pageview');
 
     $scope.showImages = true;
 
@@ -32,6 +33,7 @@
 
   function LeagueSearchCtrl($scope, $routeParams, $location, LeagueService) {
     $('body').animate({ scrollTop: 0 }, 'fast');
+    ga('send', 'pageview');
 
     $scope.hideOutdated = true;
 

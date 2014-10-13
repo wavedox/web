@@ -7,6 +7,9 @@
   wavedox.controller('LeaderboardCtrl', LeaderboardCtrl);
 
   function LeaderboardCtrl($scope, Leaderboard) {
+    $('body').animate({ scrollTop: 0 }, 'fast');
+    ga('send', 'pageview');
+
     $scope.showImages = true;
 
     $scope.toggle = function(key) {
