@@ -79,4 +79,7 @@ Rails.application.configure do
 
   # Do not dump schema after migrations.
   config.active_record.dump_schema_after_migration = false
+
+  # Use domain middleware to redirect www. to domain-only
+  config.middleware.use 'DomainMiddleware'
 end
