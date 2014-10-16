@@ -121,11 +121,11 @@
         // Faction
 
         if (_.has(predicate, 'IsHero')) {
-          return character.alignment === 'Hero';
+          return character.faction === 'Hero';
         }
 
         if (_.has(predicate, 'IsVillain')) {
-          return character.alignment === 'Villain';
+          return character.faction === 'Villain';
         }
 
         // Movement
