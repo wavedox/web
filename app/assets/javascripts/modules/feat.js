@@ -187,6 +187,7 @@
           DLC9: 'War of the Light Part I',
           DLC10: 'Amazon Fury Part I',
           DLC11: 'Halls of Power Part I',
+          DLC12: 'War of the Light Part II'
         };
 
         feat.dlc = parseDLC(soeFeat.predicate);
@@ -267,7 +268,7 @@
 
           var maxAvailable = 0;
           _.each(availableFeats, function(feat) {
-            feat.completedCount = dataPoints.completedCounts[feat.featId];
+            feat.completedCount = dataPoints.completedCounts[feat.featId] || 0;
             if (feat.completedCount > maxAvailable) maxAvailable = feat.completedCount;
           });
 
@@ -351,7 +352,6 @@
         $http.get(completedCountsUrl).success(function(featCompletedCount) {
           process('completedCounts', featCompletedCount);
         });
-
 
         function process(key, value) {
           dataPoints[key] = value;
