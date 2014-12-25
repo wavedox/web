@@ -15,6 +15,7 @@
       </div>
 
       <div class="panel-body" ng-if="league.id">
+
         <table class="wd-table">
           <tbody>
             <tr>
@@ -58,11 +59,31 @@
           </tbody>
         </table>
 
+        <div class="clearfix">
+          <input class="form-control" style="margin: 5px 0 10px" type="text" ng-model="filterModel.name" placeholder="Filter League Members">
+
+          <div class="pull-right">
+            <small>Sort by</small>
+
+            <div class="btn-group">
+              <button class="btn btn-xs btn-default dropdown-toggle" type="button" data-toggle="dropdown">
+                {{orderBy.label}} <i class="fa fa-chevron-down"></i>
+              </button>
+              <ul class="dropdown-menu" role="menu">
+                <li><a href="" ng-click="orderBy.set('rank', 'Rank')">Rank</a></li>
+                <li><a href="" ng-click="orderBy.set('-skillPoints', 'Skill Points')">Skill Points</a></li>
+                <li><a href="" ng-click="orderBy.set('-pveCr', 'PvE CR')">PvE CR</a></li>
+                <li><a href="" ng-click="orderBy.set('-pvpCr', 'PvP CR')">PvP CR</a></li>
+              </ul>
+            </div>
+          </div>
+        </div>
+
       </div>
     </div>
   </div>
 
-  <div class="col-sm-4 col-md-3" ng-repeat="member in league.members">
+  <div class="col-sm-4 col-md-3" ng-repeat="member in league.members | filter:filterModel | orderBy:orderBy.keys()">
     <div class="panel panel-success">
 
         <div class="panel-heading panel-link">

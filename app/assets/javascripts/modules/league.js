@@ -10,11 +10,26 @@
     $('body').animate({ scrollTop: 0 }, 'fast');
     ga('send', 'pageview');
 
+    $scope.filterModel = {};
     $scope.showImages = true;
 
     $scope.params = {
       name: $routeParams.name,
       world: $routeParams.world
+    };
+
+    $scope.orderBy = {
+      key: 'rank',
+      label: 'Rank',
+
+      set: function(key, label) {
+        this.key = key;
+        this.label = label;
+      },
+
+      keys: function() {
+        return [this.key, 'name'];
+      }
     };
 
     $scope.toggle = function(key) {
