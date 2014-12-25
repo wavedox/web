@@ -18,6 +18,10 @@
       world: $routeParams.world
     };
 
+    $scope.track = function(action, info) {
+      ga('send', 'event', 'League', action, info);
+    };
+
     $scope.orderBy = {
       key: 'rank',
       label: 'Rank',
@@ -25,6 +29,7 @@
       set: function(key, label) {
         this.key = key;
         this.label = label;
+        $scope.track('Sort by', label);
       },
 
       keys: function() {

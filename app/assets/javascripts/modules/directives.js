@@ -45,13 +45,25 @@
     return function (scope, element, attrs) {
       element.keydown(function(e) {
         if (e.keyCode === 13) {
+          e.preventDefault();
 
           scope.$apply(function() {
             scope.$eval(attrs.wdEnterKey);
           });
-
-          e.preventDefault();
         }
+      });
+    };
+  });
+
+  // Keydown
+
+  wavedox.directive('wdKeydown', function() {
+    return function (scope, element, attrs) {
+      element.keydown(function(e) {
+
+        scope.$apply(function() {
+          scope.$eval(attrs.wdKeydown);
+        });
       });
     };
   });

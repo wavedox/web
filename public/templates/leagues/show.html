@@ -60,7 +60,8 @@
         </table>
 
         <div class="clearfix">
-          <input class="form-control" style="margin: 5px 0 10px" type="text" ng-model="filterModel.name" placeholder="Filter League Members">
+          <input class="form-control" style="margin: 5px 0 10px" type="text" placeholder="Filter League Members"
+                 ng-model="filterModel.name" wd-keydown="track('Filter by', filterModel.name)">
 
           <div class="pull-right">
             <small>Sort by</small>
