@@ -24,7 +24,7 @@
 
     $scope.orderBy = {
       key: 'rank',
-      label: 'Rank',
+      label: 'rank',
 
       set: function(key, label) {
         this.key = key;
@@ -59,7 +59,12 @@
 
     $scope.params = {
       name: $location.search().keyword,
-      world: $routeParams.world
+      world: $routeParams.world,
+
+      worldLabel: function() {
+        if (this.world === 'all') return 'all worlds';
+        return this.world && this.world.toUpperCase();
+      }
     };
 
     LeagueService.findAll($scope.params, function(leagues) {
@@ -136,7 +141,7 @@
       var l = new League();
       l.id = soe.guild_id;
       l.name = soe.name;
-      l.world = Census.worlds.reverse[_.str.toNumber(soe.world_id)];
+      l.world = soe.world_id && Census.worlds.reverse[_.str.toNumber(soe.world_id)];
       l.path = encodeURI('/worlds/' + l.world + '/leagues/' + l.name.toLowerCase());
       return l;
     };
@@ -188,7 +193,6 @@
                  + '&c:case=false'
                  + '&c:show=guild_id,name,world_id';
 
-        console.log(params.world, worldId, path);
         Census.get(path, function(response) {
           var list = response['guild_list'] || [];
           var hash = _.first(list) || {};
@@ -222,21 +226,21 @@
 
       findAll: function(params, callback) {
         var name = params.name;
-        var worldId = Census.worlds[params.world];
+        var worldId = Census.worlds[params.world] || '';
 
         var path = '/guild?name=*' + name
-                 + '&world_id=' + worldId
+                 + (worldId && '&world_id=' + worldId)
                  + '&c:lang=en'
                  + '&c:case=false'
                  + '&c:limit=100000'
                  + '&c:sort=name'
-                 + '&c:show=guild_id,name';
+                 + '&c:show=guild_id,name,world_id';
 
         Census.get(path, function(response) {
           var list = response['guild_list'] || [];
 
           var leagues = _.map(list, function(hash) {
-            return League.parse(_.extend(hash, { world_id: worldId }));
+            return League.parse(hash);
           });
 
           callback(_.filter(leagues, function(league) {

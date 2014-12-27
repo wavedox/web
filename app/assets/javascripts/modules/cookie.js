@@ -30,7 +30,7 @@
 
       // Remove
 
-      remove: function(key, value) {
+      remove: function(key) {
         $.removeCookie(key, this.config);
       }
     };

@@ -63,16 +63,16 @@
           <input class="form-control" style="margin: 5px 0 10px" type="text" placeholder="Filter League Members"
                  ng-model="filterModel.name" wd-keydown="track('Filter by', filterModel.name)">
 
-          <div class="pull-right">
-            <small>Sort by</small>
+          <div class="open-sans pull-right">
+            <small>Sort by </small>
 
             <div class="btn-group">
               <button class="btn btn-xs btn-default dropdown-toggle" type="button" data-toggle="dropdown">
                 {{orderBy.label}} <i class="fa fa-chevron-down"></i>
               </button>
               <ul class="dropdown-menu dropdown-menu-right" role="menu">
-                <li><a href="" ng-click="orderBy.set('rank', 'Rank')">Rank</a></li>
-                <li><a href="" ng-click="orderBy.set('-skillPoints', 'Skill Points')">Skill Points</a></li>
+                <li><a href="" ng-click="orderBy.set('rank', 'rank')">rank</a></li>
+                <li><a href="" ng-click="orderBy.set('-skillPoints', 'skill points')">skill points</a></li>
                 <li><a href="" ng-click="orderBy.set('-pveCr', 'PvE CR')">PvE CR</a></li>
                 <li><a href="" ng-click="orderBy.set('-pvpCr', 'PvP CR')">PvP CR</a></li>
               </ul>

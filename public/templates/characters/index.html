@@ -10,7 +10,7 @@
       <div class="panel-heading" ng-if="!!characters">
         {{totalCount | number}}
         character<span ng-show="characters.length != 1">s</span>
-        found in {{params.world.toUpperCase()}}
+        found in {{params.worldLabel()}}
       </div>
 
       <div class="panel-body" ng-if="totalCount > 0">
@@ -57,6 +57,11 @@
           </tbody>
 
           <tbody class="continuous">
+            <tr>
+              <td>World</td>
+              <td class="text-right">{{character.world.toUpperCase()}}</td>
+            </tr>
+
             <tr>
               <td>Power</td>
               <td class="text-right">{{character.power}}</td>

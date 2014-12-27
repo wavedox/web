@@ -11,15 +11,26 @@
     ga('send', 'pageview');
 
     $scope.showImages = true;
+    $scope.leaderboard = new Leaderboard().load();
+
+    $scope.filterModel = {
+      parse: function(c) {
+        var val = $scope.filterModel.value && $scope.filterModel.value.toLowerCase();
+        if (!val) return true;
+
+        var regex = new RegExp(val);
+        return (c.name && c.name.toLowerCase().match(regex))
+          || (c.leagueName && c.leagueName.toLowerCase().match(regex));
+      }
+    };
+
+    $scope.filter = function(value) {
+      ga('send', 'event', 'Leaderboards', 'Filter by', value);
+    };
 
     $scope.toggle = function(key) {
       $scope[key] = !$scope[key];
     };
-
-    $scope.leaderboards = [
-      new Leaderboard(0, 'usps').load(),
-      new Leaderboard(1, 'uspc').load()
-    ];
   }
 
   // Leaderboard Model
@@ -29,11 +40,17 @@
 
   function LeaderboardFactory(Census, Character, League, Cookie) {
 
-    function Leaderboard(index, world) {
-      this.index = index;
-      this.stats = Cookie.get('leaderboard_' + index + '_stats') || 'skill_points';
-      this.world = Cookie.get('leaderboard_' + index + '_world') || world;
+    function Leaderboard() {
+      // Migrate cookies
+      this.stats = Cookie.get('leaderboard_stats') || Cookie.get('leaderboard_0_stats') || 'skill_points';
+      this.world = Cookie.get('leaderboard_world') || Cookie.get('leaderboard_0_world') || 'usps';
       this.characters = [];
+
+      // Clean up
+      Cookie.remove('leaderboard_0_stats');
+      Cookie.remove('leaderboard_1_stats');
+      Cookie.remove('leaderboard_0_world');
+      Cookie.remove('leaderboard_1_world');
     }
 
     Leaderboard.prototype.set = function(key, value) {
@@ -55,36 +72,45 @@
       return _.str.humanize(strip).toLowerCase();
     };
 
+    Leaderboard.prototype.worldLabel = function() {
+      if (this.world === 'all') return 'all worlds';
+      return this.world.toUpperCase();
+    }
+
     Leaderboard.prototype.saveOptions = function() {
-      Cookie.set('leaderboard_' + this.index + '_stats', this.stats);
-      Cookie.set('leaderboard_' + this.index + '_world', this.world);
+      Cookie.set('leaderboard_stats', this.stats);
+      Cookie.set('leaderboard_world', this.world);
     };
 
     Leaderboard.prototype.load = function() {
       this.saveOptions();
 
       var leaderboard = this;
-      var worldId = Census.worlds[this.world];
+      var worldId = Census.worlds[this.world] || '';
 
-      ga('send', 'event', 'Leaderboards', 'Top ' + this.statsLabel() + ' in ' + this.world.toUpperCase(), Cookie.get('my_character'));
+      ga('send', 'event', 'Leaderboards', 'Top ' + this.statsLabel() + ' in ' + this.worldLabel(), Cookie.get('my_character'));
 
       var path = '/character?' + this.stats + '=%3C1000000'
                + '&deleted=false'
                + '&combat_rating=%3E100'
                + '&skill_points=%3E100'
-               + '&world_id=' + worldId
+               + (worldId && ('&world_id=' + worldId))
                + '&c:show=character_id,name,' + this.stats + ',world_id,combat_rating,pvp_combat_rating,skill_points'
-               + '&c:join=guild_roster^on:character_id^to:character_id(guild^terms:world_id=' + worldId + '^show:name)'
+               + '&c:join=guild_roster^on:character_id^to:character_id(guild^show:name)'
                + '&c:sort=' + this.stats + ':-1,name'
                + '&c:limit=100';
 
       Census.get(path, function(response) {
         var list = response['character_list'] || [];
 
-        leaderboard.characters = _.map(list, function(hash) {
+        leaderboard.characters = _.map(list, function(hash, i) {
           var leagueHash = _.getPath(hash, 'character_id_join_guild_roster.guild_id_join_guild');
           var league = League.parse(_.extend(leagueHash, { world_id: worldId }));
-          return Character.parse(hash, league);
+          var character = Character.parse(hash, league);
+
+          character.leaderboardRank = i + 1;
+          character.leagueName = league && league.name;
+          return character;
         });
       });
 

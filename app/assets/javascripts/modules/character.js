@@ -45,7 +45,12 @@
 
     $scope.params = {
       name: $location.search().keyword,
-      world: $routeParams.world
+      world: $routeParams.world,
+
+      worldLabel: function() {
+        if (this.world === 'all') return 'all worlds';
+        return this.world && this.world.toUpperCase();
+      }
     };
 
     $scope.toggle = function(key) {
@@ -116,7 +121,7 @@
       c.weapon = _.getPath(soe, 'power_source_id_join_power_source.name.en');
       c.personality = _.getPath(soe, 'personality_id_join_personality.name.en');
       c.gender = _.str.capitalize(_.getPath(soe, 'gender_id_join_gender.name'));
-      c.world = Census.worlds.reverse[_.str.toNumber(soe.world_id)];
+      c.world = soe.world_id && Census.worlds.reverse[_.str.toNumber(soe.world_id)];
       c.lastLocation = _.getPath(soe, 'region_id_join_region.name.en');
 
       // Progress
@@ -177,12 +182,12 @@
         // Fetch character
 
         var path = '/character?' + query
-                 + '&world_id=' + worldId // not id
+                 + '&world_id=' + worldId
                  + '&c:lang=en'
                  + '&c:case=false'
                  + '&c:join=alignment^on:alignment_id^to:alignment_id^show:name.en,'
                  + 'gender^on:gender_id^to:gender_id^show:name,'
-                 + 'guild_roster^on:character_id^to:character_id(guild^terms:world_id=' + worldId + '^show:name),'
+                 + 'guild_roster^on:character_id^to:character_id(guild^show:name),'
                  + 'movement_mode^on:movement_mode_id^to:movement_mode_id^show:name.en,'
                  + 'origin^on:origin_id^to:origin_id^show:name.en,'
                  + 'personality^on:personality_id^to:personality_id^show:name.en,'
@@ -213,10 +218,10 @@
       // Find all
 
       findAll: function(params, callback) {
-        var worldId = Census.worlds[params.world];
+        var worldId = Census.worlds[params.world] || '';
 
         var path = '/character?name=*' + params.name
-                 + '&world_id=' + worldId
+                 + (worldId && '&world_id=' + worldId)
                  + '&deleted=false'
                  + '&c:lang=en'
                  + '&c:case=false'
@@ -224,17 +229,17 @@
                  + '&combat_rating=%3E1'
                  + '&skill_points=%3E1'
                  + '&c:sort=skill_points:-1,combat_rating:-1,pvp_combat_rating:-1,name'
-                 + '&c:join=guild_roster^on:character_id^to:character_id(guild^terms:world_id=' + worldId + '^show:name),'
+                 + '&c:join=guild_roster^on:character_id^to:character_id(guild^show:name,world_id),'
                  + 'power_type^on:power_type_id^to:power_type_id^show:name.en';
 
         Census.get(path, function(response) {
           var list = response['character_list'] || [];
 
           var characters = _.map(list, function(hash) {
-            var base = { world_id: worldId };
+            var base = { world_id: hash.world_id };
             var leagueHash = _.getPath(hash, 'character_id_join_guild_roster.guild_id_join_guild');
             var league = League.parse(_.extend(leagueHash, base));
-            return Character.parse(_.extend(hash, base), league);
+            return Character.parse(hash, league);
           });
 
           callback(characters);

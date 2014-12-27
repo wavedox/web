@@ -1,12 +1,17 @@
 <div class="row" id="leaderboards" ng-controller="LeaderboardCtrl" ng-cloak>
-  <div class="col-md-6 leaderboard-{{leaderboard.index}}" ng-repeat="leaderboard in leaderboards">
+  <div class="col-md-6">
+  </div>
+
+  <div class="col-md-6">
     <div class="panel panel-danger">
 
       <div class="panel-heading">
-        <h2>Top {{leaderboard.statsLabel()}} in {{leaderboard.world.toUpperCase()}}</h2>
+        <h2>Top {{leaderboard.statsLabel()}} in {{leaderboard.worldLabel()}}</h2>
       </div>
 
       <div class="panel-body">
+        <input class="form-control" style="margin-bottom: 15px" type="text" placeholder="Filter by Character or League Name"
+               ng-model="filterModel.value" wd-keydown="filter(filterModel.value)">
 
         <small>Top</small>
 
@@ -35,7 +40,7 @@
 
         <div class="btn-group">
           <button class="btn btn-xs btn-default dropdown-toggle" type="button" data-toggle="dropdown">
-            {{leaderboard.world.toUpperCase()}} <i class="fa fa-chevron-down"></i>
+            {{leaderboard.worldLabel()}} <i class="fa fa-chevron-down"></i>
           </button>
 
           <ul class="dropdown-menu dropdown-menu-right" role="menu">
@@ -43,6 +48,7 @@
             <li><a href="" ng-click="leaderboard.set('world', 'uspc')">USPC</a></li>
             <li><a href="" ng-click="leaderboard.set('world', 'eups')">EUPS</a></li>
             <li><a href="" ng-click="leaderboard.set('world', 'eupc')">EUPC</a></li>
+            <li><a href="" ng-click="leaderboard.set('world', 'all')">all worlds</a></li>
           </ul>
         </div>
 
@@ -60,7 +66,7 @@
         <table class="wd-table">
           <tbody>
 
-            <tr ng-repeat="character in leaderboard.characters">
+            <tr ng-repeat="character in leaderboard.characters | filter:filterModel.parse">
 
               <td width="1">
                 <a ng-href="{{character.path}}">
@@ -70,7 +76,7 @@
               </td>
 
               <td>
-                <small class="text-muted"># {{$index + 1}}</small>
+                <small class="text-muted"># {{character.leaderboardRank}}</small>
 
                 <h2>
                   <a ng-href="{{character.path}}">

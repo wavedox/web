@@ -8,16 +8,20 @@
 
   function ProfileService(Alert, Cookie) {
     return {
+      profile: function(type) {
+        return Cookie.get('my_' + (type || 'character'));
+      },
+
       hasProfile: function(type) {
-        return !!Cookie.get('my_' + type);
+        return !!this.profile(type);
       },
 
       isMyProfile: function() {
-        return Cookie.get('my_character') === location.pathname;
+        return this.profile() === location.pathname;
       },
 
       profileUrl: function(type) {
-        var url = Cookie.get('my_' + type);
+        var url = this.profile(type);
         ga('send', 'event', 'Profile', 'Show', url);
         return url;
       },

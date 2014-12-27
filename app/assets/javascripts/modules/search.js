@@ -40,6 +40,7 @@
     // Set
 
     SearchModel.prototype.set = function(key, value) {
+      if (key === 'cardinality' && value === 'one') this.world = 'usps';
       this[key] = value;
       this.saveOptions();
     }
@@ -56,6 +57,13 @@
 
     SearchModel.prototype.pluralize = function() {
       return this.cardinality === 'all' ? 's' : '';
+    };
+
+    // World Label
+
+    SearchModel.prototype.worldLabel = function() {
+      if (this.world === 'all') return 'all worlds';
+      return this.world.toUpperCase();
     };
 
     return SearchModel;
