@@ -50,22 +50,22 @@
 
       // Get
 
-      get: function(path, callback) {
+      get: function(path, callback, silent) {
         var url = this.buildUrlFor(path, 'get');
 
         $http.jsonp(url)
-          .success(this.successHandler(_.now(), callback, this.errorHandler))
-          .error(this.errorHandler);
+          .success(this.successHandler(_.now(), callback, this.errorHandler(silent)))
+          .error(this.errorHandler(silent));
       },
 
       // Count
 
-      count: function(path, callback) {
+      count: function(path, callback, silent) {
         var url = this.buildUrlFor(path, 'count');
 
         $http.jsonp(url)
-          .success(this.successHandler(_.now(), callback, this.errorHandler))
-          .error(this.errorHandler);
+          .success(this.successHandler(_.now(), callback, this.errorHandler(silent)))
+          .error(this.errorHandler(silent));
       },
 
       // Success handler
@@ -82,8 +82,10 @@
 
       // Error handler
 
-      errorHandler: function(data) {
-        Alert.error('Failed requesting data from Census', data, 'Census');
+      errorHandler: function(silent) {
+        return function(data) {
+          if (!silent) Alert.error('Failed requesting data from Census', data, 'Census');
+        };
       }
     };
   }

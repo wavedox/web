@@ -1,0 +1,131 @@
+<div class="col-md-6">
+  <div class="panel panel-danger">
+
+    <div class="panel-heading">
+      <h2>
+        Top
+        <span class="text-muted">{{leaderboard.statsLabel()}}</span>
+        in
+        <span class="text-muted">{{leaderboard.worldLabel()}}</span>
+      </h2>
+    </div>
+
+    <div class="panel-body">
+      <div class="visible-xs-block visible-sm-block" style="margin-bottom: 5px">
+        Scroll down for <span class="text-muted">Top Leagues</span> within this board.
+      </div>
+
+      <input class="form-control" style="margin-bottom: 15px" type="text" placeholder="Filter by Character or League Name"
+              ng-model="filterModel.value" wd-keydown="filter('Leaderboards', filterModel.value)">
+
+      <small>Top</small>
+
+      <div class="btn-group">
+        <button class="btn btn-xs btn-default dropdown-toggle" type="button" data-toggle="dropdown">
+          {{leaderboard.statsLabel()}} <i class="fa fa-chevron-down"></i>
+        </button>
+
+        <ul class="dropdown-menu" role="menu">
+          <li><a href="" ng-click="leaderboard.set('stats', 'skill_points')">skill points</a></li>
+          <li><a href="" ng-click="leaderboard.set('stats', 'combat_rating')">PvE CR</a></li>
+          <li><a href="" ng-click="leaderboard.set('stats', 'pvp_combat_rating')">PvP CR</a></li>
+          <li><a href="" ng-click="leaderboard.set('stats', 'max_health')">health</a></li>
+          <li><a href="" ng-click="leaderboard.set('stats', 'max_power')">power</a></li>
+          <li><a href="" ng-click="leaderboard.set('stats', 'defense')">defense</a></li>
+          <li><a href="" ng-click="leaderboard.set('stats', 'dominance')">dominance</a></li>
+          <li><a href="" ng-click="leaderboard.set('stats', 'might')">might</a></li>
+          <li><a href="" ng-click="leaderboard.set('stats', 'precision')">precision</a></li>
+          <li><a href="" ng-click="leaderboard.set('stats', 'restoration')">restoration</a></li>
+          <li><a href="" ng-click="leaderboard.set('stats', 'toughness')">toughness</a></li>
+          <li><a href="" ng-click="leaderboard.set('stats', 'vitalization')">vitalization</a></li>
+        </ul>
+      </div>
+
+      <small>in</small>
+
+      <div class="btn-group">
+        <button class="btn btn-xs btn-default dropdown-toggle" type="button" data-toggle="dropdown">
+          {{leaderboard.worldLabel()}} <i class="fa fa-chevron-down"></i>
+        </button>
+
+        <ul class="dropdown-menu dropdown-menu-right" role="menu">
+          <li><a href="" ng-click="leaderboard.set('world', 'usps')">USPS</a></li>
+          <li><a href="" ng-click="leaderboard.set('world', 'uspc')">USPC</a></li>
+          <li><a href="" ng-click="leaderboard.set('world', 'eups')">EUPS</a></li>
+          <li><a href="" ng-click="leaderboard.set('world', 'eupc')">EUPC</a></li>
+          <li><a href="" ng-click="leaderboard.set('world', 'all')">all worlds</a></li>
+        </ul>
+      </div>
+
+      <div class="pull-right">
+        <a href="" ng-click="toggle('showImages')" ng-show="showImages"><i class="fa fa-toggle-on"></i> images</a>
+        <a href="" ng-click="toggle('showImages')" ng-show="!showImages"><i class="fa fa-toggle-off"></i> images</a>
+      </div>
+
+      <hr>
+
+      <h2 ng-if="leaderboard.characters.length === 0">
+        <i class="fa fa-spin fa-circle-o-notch"></i> Loading...
+      </h2>
+
+      <table class="wd-table">
+        <tbody>
+
+          <tr ng-repeat="character in leaderboard.characters | filter:filterModel.parse"
+              ng-show="isVisible('characters', $index)">
+
+            <td width="1">
+              <a ng-href="{{character.path}}">
+                <img class="leaderboards-thumbnail" ng-src="{{character.image}}" ng-if="showImages"
+                  onerror="this.onerror = null; this.src='/placeholder.gif'; return false">
+              </a>
+            </td>
+
+            <td>
+              <small class="text-muted"># {{character.leaderboardRank}}</small>
+
+              <h2>
+                <a ng-href="{{character.path}}">
+                  <i class="fa fa-chevron-circle-right"></i> {{character.name}}
+                </a>
+              </h2>
+
+              <small ng-show="character.league">
+                <a class="text-muted" ng-href="{{character.league.path}}">
+                  <i class="fa fa-chevron-circle-right"></i> {{character.league.name}}
+                </a>
+              </small>
+            </td>
+
+            <td>
+              <h2 class="text-right">
+                {{character[leaderboard.statsCamel()] | number}}
+                <small class="text-muted block">{{leaderboard.statsLabel()}}</small>
+              </h2>
+
+              <table class="summary pull-right">
+                <tr>
+                  <td><small>{{character.pveCr}}</small></td>
+                  <td><small>{{character.pvpCr}}</small></td>
+                  <td><small>{{character.skillPoints}}</small></td>
+                </tr>
+
+                <tr>
+                  <td><small class="text-muted">PvE</small></td>
+                  <td><small class="text-muted">PvP</small></td>
+                  <td><small class="text-muted">SP</small></td>
+                </tr>
+              </table>
+
+            </td>
+          </tr>
+        </tbody>
+      </table>
+
+      <div class="clearfix" style="margin-top: 5px" ng-show="!showAll.characters && leaderboard.characters.length > 0">
+        <button class="btn btn-default pull-right" ng-click="showMore('Leaderboards', 'characters')">Show More</button>
+      </div>
+
+    </div>
+  </div>
+</div>

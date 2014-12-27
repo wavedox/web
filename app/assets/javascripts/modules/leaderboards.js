@@ -3,15 +3,19 @@
 
   // Leaderboard Ctrl
 
-  LeaderboardCtrl.$inject = ['$scope', 'Leaderboard'];
+  LeaderboardCtrl.$inject = ['$scope', 'Leaderboard', 'TopLeagues', 'Cookie'];
   wavedox.controller('LeaderboardCtrl', LeaderboardCtrl);
 
-  function LeaderboardCtrl($scope, Leaderboard) {
+  function LeaderboardCtrl($scope, Leaderboard, TopLeagues, Cookie) {
     $('body').animate({ scrollTop: 0 }, 'fast');
     ga('send', 'pageview');
 
     $scope.showImages = true;
-    $scope.leaderboard = new Leaderboard().load();
+    $scope.showAll = {};
+    $scope.leagueFilterModel = {};
+
+    $scope.topLeagues = new TopLeagues();
+    $scope.leaderboard = new Leaderboard($scope.topLeagues).load();
 
     $scope.filterModel = {
       parse: function(c) {
@@ -24,13 +28,27 @@
       }
     };
 
-    $scope.filter = function(value) {
-      ga('send', 'event', 'Leaderboards', 'Filter by', value);
+    $scope.filter = function(category, value) {
+      ga('send', 'event', category, 'Filter by', value);
     };
 
     $scope.toggle = function(key) {
       $scope[key] = !$scope[key];
     };
+
+    $scope.showMore = function(category, type) {
+      if (category) ga('send', 'event', category, 'Show More', Cookie.get('my_character'));
+      $scope.showAll[type] = true;
+    };
+
+    $scope.isVisible = function(type, index) {
+      return $scope.showAll[type] || index < 10;
+    };
+
+    if ($(window).width() >= 992) {
+      $scope.showMore(null, 'characters');
+      $scope.showMore(null, 'leagues');
+    }
   }
 
   // Leaderboard Model
@@ -40,7 +58,9 @@
 
   function LeaderboardFactory(Census, Character, League, Cookie) {
 
-    function Leaderboard() {
+    function Leaderboard(topLeagues) {
+      this.topLeagues = topLeagues;
+
       // Migrate cookies
       this.stats = Cookie.get('leaderboard_stats') || Cookie.get('leaderboard_0_stats') || 'skill_points';
       this.world = Cookie.get('leaderboard_world') || Cookie.get('leaderboard_0_world') || 'usps';
@@ -83,6 +103,7 @@
     };
 
     Leaderboard.prototype.load = function() {
+      this.topLeagues.leagues = [];
       this.saveOptions();
 
       var leaderboard = this;
@@ -96,28 +117,103 @@
                + '&skill_points=%3E100'
                + (worldId && ('&world_id=' + worldId))
                + '&c:show=character_id,name,' + this.stats + ',world_id,combat_rating,pvp_combat_rating,skill_points'
-               + '&c:join=guild_roster^on:character_id^to:character_id(guild^show:name)'
+               + "&c:join=guild_roster^on:character_id^to:character_id(guild^show:guild_id'name)"
                + '&c:sort=' + this.stats + ':-1,name'
-               + '&c:limit=100';
+               + '&c:limit=150';
 
       Census.get(path, function(response) {
-        var list = response['character_list'] || [];
+        var list = _.filter(response['character_list'] || [], function(hash) {
+          var leagueId = _.getPath(hash, 'character_id_join_guild_roster.guild_id');
+          return leagueId != '8590113811'; // Suspicious league with GMs
+        }).slice(0, 100);
 
         leaderboard.characters = _.map(list, function(hash, i) {
           var leagueHash = _.getPath(hash, 'character_id_join_guild_roster.guild_id_join_guild');
-          var league = League.parse(_.extend(leagueHash, { world_id: worldId }));
+          var league = League.parse(_.extend(leagueHash, { world_id: hash.world_id }));
           var character = Character.parse(hash, league);
 
           character.leaderboardRank = i + 1;
           character.leagueName = league && league.name;
           return character;
         });
+
+        leaderboard.topLeagues.load(leaderboard.characters);
       });
 
       return this;
     };
 
     return Leaderboard;
+  }
+
+  // Top Leagues Model
+
+  TopLeaguesFactory.$inject = ['Census', 'Cookie', 'LeagueService'];
+  wavedox.factory('TopLeagues', TopLeaguesFactory);
+
+  function TopLeaguesFactory(Census, Cookie, LeagueService) {
+
+    function TopLeagues() {
+      this.stats = Cookie.get('topleagues_stats') || 'avgSkillPoints';
+      this.leagues = [];
+    }
+
+    TopLeagues.prototype.sortBy = function(key) {
+      this.stats = key;
+      this.saveOptions();
+      this.sort();
+    };
+
+    TopLeagues.prototype.sort = function() {
+      this.leagues = _.sortBy(this.leagues, function(league) {
+        return _.str.toNumber(league[this.stats]) * -1;
+      }, this);
+
+      ga('send', 'event', 'Top Leagues', 'Sort by average ' + this.statsLabel(), Cookie.get('my_character'));
+
+      _.each(this.leagues, function(league, i) {
+        league.leaderboardRank = i + 1;
+      });
+    };
+
+    TopLeagues.prototype.statsLabel = function() {
+      if (this.stats === 'avgSkillPoints') return 'skill points';
+      if (this.stats === 'avgPveCr') return 'PvE CR';
+      if (this.stats === 'avgPvpCr') return 'PvP CR';
+    };
+
+    TopLeagues.prototype.saveOptions = function() {
+      Cookie.set('topleagues_stats', this.stats);
+    };
+
+    TopLeagues.prototype.load = function(characters) {
+      this.saveOptions();
+
+      var topLeagues = this;
+      var fakeLeagueId = 0;
+      var uniqueLeagues = _.unique(_.map(characters, function(character) {
+        return character.league || { id: --fakeLeagueId };
+      }), 'id');
+
+      _.each(uniqueLeagues, function(uniqueLeague) {
+        var params = {
+          name: uniqueLeague.name,
+          world: uniqueLeague.world,
+          silent: true
+        };
+
+        LeagueService.findOne(params, function(league) {
+          if (league.members.length >= 10 && league.avgSkillPoints >= 1 && league.avgPveCr >= 1 && league.avgPvpCr >= 1) {
+            topLeagues.leagues.push(league);
+            topLeagues.sort();
+          }
+        });
+      });
+
+      return this;
+    };
+
+    return TopLeagues;
   }
 
 })();

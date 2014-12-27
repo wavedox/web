@@ -186,7 +186,6 @@
 
         // Fetch league
 
-
         var path = '/guild?name=' + name
                  + '&world_id=' + worldId
                  + '&c:lang=en'
@@ -219,7 +218,7 @@
             league.calculateAverages();
             callback(league);
           });
-        });
+        }, params.silent);
       },
 
       // Find all
