@@ -124,7 +124,10 @@
       Census.get(path, function(response) {
         var list = _.filter(response['character_list'] || [], function(hash) {
           var leagueId = _.getPath(hash, 'character_id_join_guild_roster.guild_id');
-          return leagueId != '8590113811'; // Suspicious league with GMs
+          return !_.contains([ // Blacklisted leagues
+            '8590148778', // The Turbans
+            '8590113811' // TeamEpicFail
+          ], leagueId);
         }).slice(0, 100);
 
         leaderboard.characters = _.map(list, function(hash, i) {
