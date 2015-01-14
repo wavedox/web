@@ -18,8 +18,7 @@ class Census
     puts "Census.count: #{BASE_URL}#{BASE_COUNT_PATH}#{path}" if verbose
     request = Net::HTTP::Get.new(BASE_COUNT_PATH + path)
     response = http.request(request)
-    count = JSON.parse(response.body)['count']
-    count >= 0 ? count : nil
+    JSON.parse(response.body)['count']
   end
 
   def encode(string)
