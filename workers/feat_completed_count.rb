@@ -1,7 +1,7 @@
 require 'benchmark'
-require 'json'
-require 'iron_cache'
 require 'census'
+require 'iron_cache'
+require 'json'
 
 class Worker
   attr_reader :cache

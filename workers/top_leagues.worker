@@ -1,0 +1,6 @@
+remote # full_remote_build true
+runtime 'ruby'
+exec 'league_averages.rb'
+gem 'mongo'
+file '../iron.json'
+file '../app/models/concerns/census.rb'

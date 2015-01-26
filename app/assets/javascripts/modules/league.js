@@ -211,6 +211,7 @@
                          + '(power_type^on:power_type_id^to:power_type_id^show:name.en,'
                          + 'alignment^on:alignment_id^to:alignment_id^show:name.en)';
 
+
           Census.get(rosterPath, function(rosterResponse) {
             var rosterList = rosterResponse['guild_roster_list'] || [];
             league.members = League.parseRoster(rosterList);
