@@ -35,8 +35,8 @@ class Worker
   MIN_PVE   = 111
   MIN_PVP   = 97
 
-  SP_WEIGHT  = 0.3
-  PVE_WEIGHT = 0.1
+  SP_WEIGHT  = 0.7
+  PVE_WEIGHT = 0.2
   PVP_WEIGHT = 0.1
 
   ALIGNMENT_MAP = {
@@ -68,7 +68,7 @@ class Worker
   def league_members_query(id)
     q = "/guild_roster?guild_id=#{id}&c:lang=en&c:limit=100000&c:show=character_id"
     q += '&c:join=character^on:character_id^to:character_id'
-    q += '^show:combat_rating%27pvp_combat_rating%27skill_points%27alignment_id%27world_id'
+    q += '^show:level%27combat_rating%27pvp_combat_rating%27skill_points%27alignment_id%27world_id'
   end
 
   def fetch_top_characters
@@ -125,10 +125,11 @@ class Worker
             sp: c.try(:[], 'character_id_join_character').try(:[], 'skill_points').to_i,
             pve: c.try(:[], 'character_id_join_character').try(:[], 'combat_rating').to_i,
             pvp: c.try(:[], 'character_id_join_character').try(:[], 'pvp_combat_rating').to_i
+            level: c.try(:[], 'character_id_join_character').try(:[], 'level').to_i
           }
         end
 
-        puts "#{i + 1} / #{@top_leagues.size}" if (i + 1) % 100 == 0
+        puts "#{i + 1} / #{@top_leagues.size}" if (i + 1) % 100 == 0 || (i + 1) == @top_leagues.size
       end
     end
   end
@@ -138,28 +139,41 @@ class Worker
 
     measure do
       @top_leagues.each do |league|
-        count_sp, count_pve, count_pvp, sum_sp, base_sp = 0, 0, 0, 0, 0
+        sp_weight, pve_weight, pvp_weight = 0, 0, 0
+        sum_sp, sum_pve, sum_pvp, base = 0, 0, 0, 0
 
         league[:members].each do |member|
-          count_pve += PVE_WEIGHT if member[:pve] >= MIN_PVE
-          count_pvp += PVP_WEIGHT if member[:pvp] >= MIN_PVP
-          count_sp += SP_WEIGHT if member[:sp] >= MIN_SP
+          sp_weight += SP_WEIGHT if member[:sp] >= MIN_SP
+          pve_weight += PVE_WEIGHT if member[:pve] >= MIN_PVE
+          pvp_weight += PVP_WEIGHT if member[:pvp] >= MIN_PVP
 
-          if member[:pve] >= MIN_LEVEL
+          if member[:level] >= MIN_LEVEL
             sum_sp += member[:sp]
-            base_sp += 1
+            sum_pve += member[:pve]
+            sum_pvp += member[:pvp]
+            base += 1
           end
         end
+
+        safe_base = [base, 1].max
+
+        league[:avg_sp] = sum_sp / safe_base
+        league[:avg_pve] = sum_pve / safe_base
+        league[:avg_pvp] = sum_pvp / safe_base
+
+        league[:sp_weight] = sp_weight
+        league[:pve_weight] = pve_weight
+        league[:pvp_weight] = pvp_weight
 
         league[:size] = league[:members].size
         league.delete(:members)
 
-        league[:avg_sp] = sum_sp / [base_sp, 1].max
-        league[:count_sp] = count_sp
-        league[:count_pve] = count_pve
-        league[:count_pvp] = count_pvp
+        league[:sp_score] = league[:avg_sp] + sp_weight
+        league[:pve_score] = league[:avg_pve] + pve_weight
+        league[:pvp_score] = league[:avg_pvp] + pvp_weight
 
-        league[:score] = league[:avg_sp] + count_sp + count_pve + count_pvp
+        league[:avg_stats] = (league[:avg_sp] * SP_WEIGHT) + (league[:avg_pve] * PVE_WEIGHT) + (league[:avg_pvp] * PVP_WEIGHT)
+        league[:overall_score] = league[:avg_stats] + sp_weight + pve_weight + pvp_weight
       end
     end
   end
