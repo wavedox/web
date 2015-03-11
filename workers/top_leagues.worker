@@ -1,6 +1,7 @@
 remote # full_remote_build true
 runtime 'ruby'
 exec 'top_leagues.rb'
+gem 'active_support'
 gem 'iron_cache'
 file '../iron.json'
 file '../app/models/concerns/census.rb'
