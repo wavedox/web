@@ -193,7 +193,8 @@ class Worker
 
   def persist_to_cache
     puts 'Persisting to cache'
-    measure { @cache.put('top_leagues', @top_leagues.to_json) }
+    json_value = { top_leagues: @top_leagues }.to_json
+    measure { @cache.put('top_leagues', json_value) }
   end
 end
 
