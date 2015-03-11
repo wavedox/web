@@ -1,6 +1,6 @@
 require 'bundle/bundler/setup'
 
-require 'active_support'
+require 'active_support/core_ext/object/try'
 require 'benchmark'
 require 'census'
 require 'iron_cache'
