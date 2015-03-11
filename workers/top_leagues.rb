@@ -1,3 +1,6 @@
+require 'bundle/bundler/setup'
+
+require 'active_support'
 require 'benchmark'
 require 'census'
 require 'iron_cache'

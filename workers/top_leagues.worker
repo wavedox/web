@@ -1,7 +1,9 @@
 remote # full_remote_build true
 runtime 'ruby'
 exec 'top_leagues.rb'
-gem 'active_support'
-gem 'iron_cache'
+# gem 'active_support' # iron.io temporary workaround for bundler 1.8.0
+# gem 'iron_cache' # iron.io temporary workaround for bundler 1.8.0
+file '../Gemfile' # iron.io temporary workaround for bundler 1.8.0
 file '../iron.json'
 file '../app/models/concerns/census.rb'
+build 'bundle install --standalone' # iron.io temporary workaround for bundler 1.8.0
