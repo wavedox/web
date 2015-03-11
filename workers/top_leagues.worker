@@ -1,5 +1,6 @@
 remote # full_remote_build true
 runtime 'ruby'
+stack 'ruby-2.1'
 exec 'top_leagues.rb'
 # gem 'active_support' # iron.io temporary workaround for bundler 1.8.0
 # gem 'iron_cache' # iron.io temporary workaround for bundler 1.8.0

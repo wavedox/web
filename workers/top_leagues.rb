@@ -1,4 +1,4 @@
-require 'bundle/bundler/setup'
+require 'bundle/bundler/setup' # iron.io temporary workaround for bundler 1.8.0
 
 require 'active_support/core_ext/object/try'
 require 'benchmark'
@@ -193,8 +193,7 @@ class Worker
 
   def persist_to_cache
     puts 'Persisting to cache'
-    json_value = { top_leagues: @top_leagues }.to_json
-    measure { @cache.put('top_leagues', json_value) }
+    measure { @cache.put('top_leagues', @top_leagues.to_json) }
   end
 end
 
