@@ -42,6 +42,8 @@ class Worker
   PVE_WEIGHT = 0.3
   PVP_WEIGHT = 0.3
 
+  WELL_KNOWN_ID = '8590118980'
+
   ALIGNMENT_MAP = {
     '2330' => 'Hero',
     '2331' => 'Villain'
@@ -108,7 +110,7 @@ class Worker
 
   def select_top_leagues
     puts 'Selecting top leagues by minimum size'
-    measure { @top_leagues = @league_map.values.select { |l| l[:members].size >= MIN_SIZE }}
+    measure { @top_leagues = @league_map.values.select { |l| l[:members].size >= MIN_SIZE && l[:id] != WELL_KNOWN_ID }}
     puts "Selected #{@top_leagues.size} top leagues"
   end
 

@@ -10,11 +10,15 @@
     $routeProvider
 
       .when('/', {
-        templateUrl: '/templates/welcome.html'
+        templateUrl: '/templates/leaderboards/top-leagues.html'
       })
 
-      .when('/leaderboards', {
-        templateUrl: '/templates/leaderboards.html'
+      .when('/top-leagues', {
+        templateUrl: '/templates/leaderboards/top-leagues.html'
+      })
+
+      .when('/top-characters', {
+        templateUrl: '/templates/leaderboards/top-characters.html'
       })
 
       .when('/worlds/:world/characters', {
@@ -35,6 +39,10 @@
 
       .when('/worlds/:world/leagues/:name', {
         templateUrl: '/templates/leagues/show.html'
+      })
+
+      .when('/faq', {
+        templateUrl: '/templates/faq.html'
       })
 
     .otherwise({ redirectTo: '/' });

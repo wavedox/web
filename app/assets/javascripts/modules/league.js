@@ -1,12 +1,14 @@
 (function() {
   var wavedox = angular.module('wavedox');
 
+  var WELL_KNOWN_ID = '8590118980';
+
   // League Ctrl
 
-  LeagueCtrl.$inject = ['$scope', '$routeParams', 'LeagueService'];
+  LeagueCtrl.$inject = ['$scope', '$location', '$routeParams', 'LeagueService'];
   wavedox.controller('LeagueCtrl', LeagueCtrl);
 
-  function LeagueCtrl($scope, $routeParams, LeagueService) {
+  function LeagueCtrl($scope, $location, $routeParams, LeagueService) {
     $('body').animate({ scrollTop: 0 }, 'fast');
     ga('send', 'pageview');
 
@@ -42,7 +44,11 @@
     };
 
     LeagueService.findOne($scope.params, function(league) {
-      $scope.league = league || {};
+      if (league.id === WELL_KNOWN_ID) {
+        $location.path('/top-leagues');
+      } else {
+        $scope.league = league || {};
+      }
     });
   }
 

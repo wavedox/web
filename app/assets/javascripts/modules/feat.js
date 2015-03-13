@@ -348,7 +348,7 @@
           process('featCategoryMap', FeatCategory.buildMap(response['feat_category_list']));
         });
 
-        var completedCountsUrl = '/feat-completed-count.json';
+        var completedCountsUrl = '/api/feat-completed-count.json';
         $http.get(completedCountsUrl).success(function(featCompletedCount) {
           process('completedCounts', featCompletedCount);
         });

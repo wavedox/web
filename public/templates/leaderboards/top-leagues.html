@@ -1,0 +1,144 @@
+<div class="row" id="top-leagues" ng-controller="TopLeaguesCtrl" ng-cloak>
+  <div class="col-md-12">
+    <div class="panel panel-danger">
+
+      <div class="panel-heading">
+        <h2>
+          Top Leagues
+          <span class="text-muted">by</span>
+          {{topLeagues.statsLabel()}}
+          <span class="text-muted">in</span>
+          {{topLeagues.worldLabel()}}
+        </h2>
+      </div>
+
+      <div class="panel-body">
+        <input class="form-control" style="margin-bottom: 15px" type="text" placeholder="Filter by League Name"
+                ng-model="filterModel.name" wd-keydown="filter(filterModel.name)">
+
+        <small>Sort by</small>
+
+        <div class="btn-group">
+          <button class="btn btn-xs btn-default dropdown-toggle" type="button" data-toggle="dropdown">
+            {{topLeagues.statsLabel()}} <i class="fa fa-chevron-down"></i>
+          </button>
+
+          <ul class="dropdown-menu" role="menu">
+            <li><a href="" ng-click="topLeagues.set('stats', 'score')">score</a></li>
+            <li><a href="" ng-click="topLeagues.set('stats', 'avg_sp')">average SP</a></li>
+            <li><a href="" ng-click="topLeagues.set('stats', 'avg_pve')">average PvE CR</a></li>
+            <li><a href="" ng-click="topLeagues.set('stats', 'avg_pvp')">average PvP CR</a></li>
+            <li><a href="" ng-click="topLeagues.set('stats', 'sp_count')">150+ SP headcount</a></li>
+            <li><a href="" ng-click="topLeagues.set('stats', 'pve_count')">113+ PvE CR headcount</a></li>
+            <li><a href="" ng-click="topLeagues.set('stats', 'pvp_count')">97+ PvP CR headcount</a></li>
+          </ul>
+        </div>
+
+        <small>in</small>
+
+        <div class="btn-group">
+          <button class="btn btn-xs btn-default dropdown-toggle" type="button" data-toggle="dropdown">
+            {{topLeagues.worldLabel()}} <i class="fa fa-chevron-down"></i>
+          </button>
+
+          <ul class="dropdown-menu dropdown-menu-right" role="menu">
+            <li><a href="" ng-click="topLeagues.set('world', 'usps')">USPS</a></li>
+            <li><a href="" ng-click="topLeagues.set('world', 'uspc')">USPC</a></li>
+            <li><a href="" ng-click="topLeagues.set('world', 'eups')">EUPS</a></li>
+            <li><a href="" ng-click="topLeagues.set('world', 'eupc')">EUPC</a></li>
+            <li><a href="" ng-click="topLeagues.set('world', 'all')">all worlds</a></li>
+          </ul>
+        </div>
+
+        <hr>
+
+        <h2 ng-if="topLeagues.leagues.length === 0">
+          <i class="fa fa-spin fa-circle-o-notch"></i> Loading...
+        </h2>
+
+        <table class="wd-table">
+          <tbody>
+            <tr ng-repeat="league in topLeagues.leagues | filter:filterModel" ng-show="$index < limit">
+
+              <td>
+                <div class="row">
+                  <div class="col-lg-9 pull-left">
+                    <div class="row">
+
+                      <div class="col-lg-4">
+                        <small class="text-muted"># {{league.topRank}}</small>
+                        <h2>
+                          <a ng-href="{{league.path}}">
+                            <i class="fa fa-chevron-circle-right"></i> {{league.name}}
+                          </a>
+                        </h2>
+
+                        <span>{{league.size}}</span>
+                        <span class="text-muted">total members</span>
+                        <span>{{league.alignment}} {{league.world.toUpperCase()}}</span>
+                      </div>
+
+                      <div class="col-lg-4">
+                        <table class="summary">
+                          <tr>
+                            <td class="text-right">{{league.spCount}}</td>
+                            <td class="text-muted">members with</td>
+                            <td class="text-muted">150+ SP</td>
+                          </tr>
+
+                          <tr>
+                            <td class="text-right">{{league.pveCount}}</td>
+                            <td class="text-muted">members with</td>
+                            <td class="text-muted">113+ PvE CR</td>
+                          </tr>
+
+                          <tr>
+                            <td class="text-right">{{league.pvpCount}}</td>
+                            <td class="text-muted">members with</td>
+                            <td class="text-muted" style="padding-left: 8px">97+ PvP CR</td>
+                          </tr>
+                        </table>
+                      </div>
+
+                      <div class="col-lg-4">
+                        <table class="summary pull-right average">
+                          <tr>
+                            <td class="text-right">{{league.avgSkillPoints}}</td>
+                            <td class="text-muted">average SP</td>
+                          </tr>
+
+                          <tr>
+                            <td class="text-right">{{league.avgPveCr}}</td>
+                            <td class="text-muted">average PvE CR</td>
+                          </tr>
+
+                          <tr>
+                            <td class="text-right">{{league.avgPvpCr}}</td>
+                            <td class="text-muted">average PvP CR</td>
+                          </tr>
+                        </table>
+                      </div>
+                    </div>
+                  </div>
+
+                  <div class="col-lg-3 pull-right">
+                    <div class="score text-right">
+                      <div class="text-muted">score</div>
+                      <h2>{{league.score}}</h2>
+                    </div>
+                  </div>
+
+                </div>
+              </td>
+            </tr>
+          </tbody>
+        </table>
+
+        <div class="clearfix" style="margin-top: 5px" ng-show="topLeagues.leagues.length > limit">
+          <button class="btn btn-default pull-right" ng-click="showAll()">Show All</button>
+        </div>
+
+      </div>
+    </div>
+  </div>
+</div>

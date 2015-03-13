@@ -1,8 +1,4 @@
-#leaderboards
-  .average
-    td
-      padding: 0 5px
-
+#top-characters
   .summary
     text-align: center
 
@@ -25,22 +21,31 @@
         text-align: right
         width: 30px
 
-.leaderboards-thumbnail
+.top-character-thumbnail
   border: 5px solid lighten($gray, 5%)
   height: 154px
   margin-right: 10px
   width: 100px
 
+@media (min-width: $screen-sm-min)
+  #top-characters
+    .wd-table
+      td
+        font-size: 18px
+
+      h2
+        font-size: 24px
+
 @media (max-width: $screen-xs-max)
-  .leaderboards-thumbnail
+  .top-character-thumbnail
     border: 3px solid lighten($gray, 5%)
     height: 92px
     margin-right: 0
     width: 60px
 
-  #leaderboards
+  #top-characters
     .panel-heading h2
-      font-size: 18px
+      font-size: 16px
 
     h2
       font-size: 13px
