@@ -36,7 +36,7 @@
       this.scope = $scope;
 
       // Migrate cookies
-      this.stats = Cookie.get('top_leagues_stats') || Cookie.get('topleagues_stats') || 'score';
+      this.stats = Cookie.get('top_leagues_stats') || 'score';
       this.world = Cookie.get('top_leagues_world') || 'usps';
       this.leagues = [];
 
