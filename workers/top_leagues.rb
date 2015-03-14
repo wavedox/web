@@ -182,7 +182,7 @@ class Worker
         pve_score = league[:avg_pve] + pve_weight
         pvp_score = league[:avg_pvp] + pvp_weight
 
-        league[:score] = sp_score + pve_score + pvp_score
+        league[:score] = sp_score + pve_score #+ pvp_score
       end
     end
   end

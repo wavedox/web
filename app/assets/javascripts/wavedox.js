@@ -10,7 +10,7 @@
     $routeProvider
 
       .when('/', {
-        templateUrl: '/templates/leaderboards/top-leagues.html'
+        redirectTo: '/top-leagues'
       })
 
       .when('/top-leagues', {
