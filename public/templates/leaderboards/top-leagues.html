@@ -16,7 +16,7 @@
         <input class="form-control" style="margin-bottom: 15px" type="text" placeholder="Filter by League Name"
                 ng-model="filterModel.name" wd-keydown="filter(filterModel.name)">
 
-        <small>Sort by</small>
+        <small>Looking for PvP? Sort by</small>
 
         <div class="btn-group">
           <button class="btn btn-xs btn-default dropdown-toggle" type="button" data-toggle="dropdown">
@@ -30,7 +30,7 @@
             <li><a href="" ng-click="topLeagues.set('stats', 'avg_pvp')">average PvP CR</a></li>
             <li><a href="" ng-click="topLeagues.set('stats', 'sp_count')">150+ SP headcount</a></li>
             <li><a href="" ng-click="topLeagues.set('stats', 'pve_count')">113+ PvE CR headcount</a></li>
-            <li><a href="" ng-click="topLeagues.set('stats', 'pvp_count')">97+ PvP CR headcount</a></li>
+            <li><a href="" ng-click="topLeagues.set('stats', 'pvp_count')">99+ PvP CR headcount</a></li>
           </ul>
         </div>
 
@@ -95,7 +95,7 @@
                           <tr>
                             <td class="text-right">{{league.pvpCount}}</td>
                             <td class="text-muted">characters with</td>
-                            <td class="text-muted" style="padding-left: 8px">97+ PvP CR</td>
+                            <td class="text-muted" style="padding-left: 8px">99+ PvP CR</td>
                           </tr>
                         </table>
                       </div>

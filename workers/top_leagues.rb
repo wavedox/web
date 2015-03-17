@@ -33,10 +33,10 @@ class Worker
 
   MIN_SIZE  = 10
 
-  MIN_LEVEL = 30
-  MIN_SP    = 150
-  MIN_PVE   = 113
-  MIN_PVP   = 97
+  MIN_SP_LEVEL = 40
+  MIN_SP       = 150
+  MIN_PVE      = 113
+  MIN_PVP      = 99
 
   SP_WEIGHT  = 0.7
   PVE_WEIGHT = 0.3
@@ -146,26 +146,31 @@ class Worker
       @top_leagues.each do |league|
         sp_count, pve_count, pvp_count = 0, 0, 0
         sp_weight, pve_weight, pvp_weight = 0, 0, 0
-        sum_sp, sum_pve, sum_pvp, base = 0, 0, 0, 0
+        sum_sp, sum_pve, sum_pvp, base, pvp_base = 0, 0, 0, 0, 0
 
         league[:members].each do |member|
           sp_count += 1 if member[:sp] >= MIN_SP
           pve_count += 1 if member[:pve] >= MIN_PVE
           pvp_count += 1 if member[:pvp] >= MIN_PVP
 
-          if member[:level] >= MIN_LEVEL
+          if member[:sp] >= MIN_SP_LEVEL
             sum_sp += member[:sp]
             sum_pve += member[:pve]
-            sum_pvp += member[:pvp]
             base += 1
+          end
+
+          if member[:pvp] > 0
+            sum_pvp += member[:pvp]
+            pvp_base += 1
           end
         end
 
         safe_base = [base, 1].max
+        safe_pvp_base = [pvp_base, 1].max
 
         league[:avg_sp] = sum_sp / safe_base
         league[:avg_pve] = sum_pve / safe_base
-        league[:avg_pvp] = sum_pvp / safe_base
+        league[:avg_pvp] = sum_pvp / safe_pvp_base
 
         league[:sp_count] = sp_count
         league[:pve_count] = pve_count
@@ -182,7 +187,7 @@ class Worker
         pve_score = league[:avg_pve] + pve_weight
         pvp_score = league[:avg_pvp] + pvp_weight
 
-        league[:score] = sp_score + pve_score #+ pvp_score
+        league[:score] = sp_score + pve_score + pvp_score
       end
     end
   end
