@@ -1,7 +1,7 @@
 Rails.application.routes.draw do
   root 'static#index'
   get 'api/feat-completed-count' => 'feats#completed_count'
-  get 'api/top-leagues' => 'top_leagues#index'
+  #get 'api/top-leagues' => 'top_leagues#index'
   get 'ping' => 'static#ping'
   get '*all' => 'static#index'
 

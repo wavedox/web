@@ -8,7 +8,7 @@
 
   function Census($http, Env, Alert) {
     return {
-      baseUrl: 'http://census.soe.com/s:bytecode/json/',
+      baseUrl: 'http://census.daybreakgames.com/s:bytecode/json/',
       callbackParam: 'callback=JSON_CALLBACK',
       dcuoEndpoint: '/dcuo:v1',
 

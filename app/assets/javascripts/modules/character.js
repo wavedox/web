@@ -148,7 +148,7 @@
 
       // Paths
 
-      c.image = 'http://census.soe.com/files/dcuo/images/character/paperdoll/' + c.id;
+      c.image = 'http://census.daybreakgames.com/files/dcuo/images/character/paperdoll/' + c.id;
       c.path = encodeURI('/worlds/' + c.world + '/characters/' + c.name.toLowerCase());
       c.suggestedFeatsPath = c.path + '/suggested-feats';
 

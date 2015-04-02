@@ -3,7 +3,7 @@ require 'net/http'
 require 'uri'
 
 class Census
-  BASE_URL = 'http://census.soe.com'
+  BASE_URL = 'http://census.daybreakgames.com'
   BASE_GET_PATH = '/s:bytecode/json/get/dcuo:v1'
   BASE_COUNT_PATH = '/s:bytecode/json/count/dcuo:v1'
 
