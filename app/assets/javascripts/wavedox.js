@@ -10,12 +10,12 @@
     $routeProvider
 
       .when('/', {
-        redirectTo: '/top-characters'
+        redirectTo: '/top-leagues'
       })
 
-      // .when('/top-leagues', {
-      //   templateUrl: '/templates/leaderboards/top-leagues.html'
-      // })
+      .when('/top-leagues', {
+        templateUrl: '/templates/leaderboards/top-leagues.html'
+      })
 
       .when('/top-characters', {
         templateUrl: '/templates/leaderboards/top-characters.html'
