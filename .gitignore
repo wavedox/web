@@ -1,4 +1,5 @@
 .DS_Store
 /.bundle
+/bundle
 /log/*.log
 /tmp

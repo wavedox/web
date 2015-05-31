@@ -121,9 +121,15 @@ class Worker
       @top_leagues.each_with_index do |league, i|
         response = @census.get(league_members_query(league[:id]), false)
         roster = response['guild_roster_list'] || []
+        first_in_roster = nil
 
-        league[:alignment] = ALIGNMENT_MAP[roster.first['character_id_join_character']['alignment_id']]
-        league[:world] = WORLD_MAP[roster.first['character_id_join_character']['world_id']]
+        roster.each do |c|
+          c_join = c['character_id_join_character']
+          next if c_join.nil?
+          league[:alignment] = ALIGNMENT_MAP[c_join['alignment_id']]
+          league[:world] = WORLD_MAP[c_join['world_id']]
+          break
+        end
 
         league[:members] = roster.map do |c|
           {
