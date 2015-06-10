@@ -35,7 +35,7 @@ class Worker
 
   MIN_SP_LEVEL = 40
   MIN_SP       = 150
-  MIN_PVE      = 113
+  MIN_PVE      = 123
   MIN_PVP      = 99
 
   SP_WEIGHT  = 0.7
