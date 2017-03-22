@@ -142,7 +142,8 @@
     // Parse League
 
     League.parse = function(soe) {
-      if (!soe || !soe.name) return;
+      if (!soe) return;
+      if (!soe.name) soe.name = soe.guild_id;
 
       var l = new League();
       l.id = soe.guild_id;
